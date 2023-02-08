@@ -1,4 +1,4 @@
-package lesson_1
+package lesson_1.lesson
 
 fun main(args: Array<String>) {
 //    // Примитивные
@@ -22,8 +22,8 @@ fun main(args: Array<String>) {
 //    println(work == work1)
 //
 //    // Ссылочные
-//    val obj1: lesson_1.SomeObject = lesson_1.SomeObject()
-//    val obj2: lesson_1.SomeObject = obj1
+//    val obj1: lesson_1.lesson.SomeObject = lesson_1.lesson.SomeObject()
+//    val obj2: lesson_1.lesson.SomeObject = obj1
 //
 //    println(obj1.name) // "blabla"
 //    println(obj2.name) // "blabla" same
@@ -63,14 +63,14 @@ fun main(args: Array<String>) {
 
 }
 
-//class lesson_1.SomeObject(
+//class lesson_1.lesson.SomeObject(
 //    val name: String = "blabla"
 //) {
 //    override fun equals(other: Any?): Boolean {
 //        if (this === other) return true
 //        if (javaClass != other?.javaClass) return false
 //
-//        other as lesson_1.SomeObject
+//        other as lesson_1.lesson.SomeObject
 //
 //        if (name != other.name) return false
 //
