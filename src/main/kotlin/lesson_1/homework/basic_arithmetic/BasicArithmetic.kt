@@ -29,27 +29,176 @@ package lesson_1.homework.basic_arithmetic
 
 //vararg
 
-fun main(){
-    basicMath(2, 55, "b")
+fun main() {
+
+    basicMath(2, 55, "-")
+    println("\n//////////////")
+    hardBasicMath("10+10")
+    println("\n//////////////")
+    superHardBasicMath("2*4")
+
 }
 
-fun basicMath (x:Int, y:Int, operator: String): Int{
-    var c=1
-    if (operator=="+"||operator=="-"||operator=="/"||operator=="*"){
+fun basicMath(x: Int, y: Int, operator: String): Int? {
 
-        when (operator){
-            "+" -> c=x+y
-            "-" -> c=x-y
-            "*" -> c=x*y
-            "/" -> c=x/y
+    when (operator) {
+        "+" -> {
+            print("Result is ${x + y}")
+            return x + y
         }
-        print("Result is $c")
-    } else {
-        print ("Error. Enter a correct operator")
+
+        "-" -> {
+            print("Result is ${x - y}")
+            return x - y
+        }
+
+        "*" -> {
+            print("Result is ${x * y}")
+            return x * y
+        }
+
+        "/" -> {
+            print("Result is ${x / y}")
+            return x / y
+        }
+
+        else -> {
+            print("Error. Enter a correct operator")
+            return null
+        }
+
     }
-    return c
 }
 
-fun hurderBasicMath(){
+fun hardBasicMath(expression: String): Int? {
+    val expressionNumbers = expression.filterNot { it.isLetter() }
+    val expressionOperator = expression.filterNot { it.isDigit() }
+    var answer: Int
+    var temporalAnswers = mutableListOf<Int>()
 
+    for (i in expression.indices) {
+        if (i == 0 && expression[i] == '-') {
+        }
+    }
+
+    when (expressionOperator) {
+        "+" -> {
+            answer = expressionNumbers[0].digitToInt() + expressionNumbers[1].digitToInt()
+            print("Result is ${answer}")
+            return answer
+        }
+
+        "-" -> {
+            answer = expressionNumbers[0].digitToInt() - expressionNumbers[1].digitToInt()
+            print("Result is ${answer}")
+            return answer
+        }
+
+        "*" -> {
+            answer = expressionNumbers[0].digitToInt() * expressionNumbers[1].digitToInt()
+            print("Result is ${answer}")
+            return answer
+        }
+
+        "/" -> {
+            answer = expressionNumbers[0].digitToInt() * expressionNumbers[1].digitToInt()
+            print("Result is ${answer}")
+            return answer
+        }
+
+        else -> {
+            print("Error. Enter a correct expression")
+            return null
+        }
+    }
+}
+
+fun superHardBasicMath(expression: String) {
+
+    val expressionNumbers = expression.filter { it.isDigit() }
+    val expressionOperator = expression.filterNot { it.isDigit() }
+    var answer: Int
+
+    var temporalExpression = expression.toMutableList()
+    println(temporalExpression)
+
+    for (i in expression.indices) {
+        var temporalResult: Int
+        if (expression[i] == '*' || expression[i] == '/') {
+            when (expressionOperator) {
+                "*" -> {
+                    temporalResult = expression[i - 1].digitToInt() * expression[i + 1].digitToInt()
+
+                    println(temporalResult)
+
+                    temporalExpression.add(i, temporalResult.toChar())
+
+                    temporalExpression.removeAt(i + 1)
+                    temporalExpression.removeAt(i - 1)
+                    temporalExpression.add(i - 1, temporalResult.toChar())
+                    temporalExpression.removeAt(i)
+                    println(temporalExpression)
+
+                }
+
+                "/" -> {
+                    temporalResult = expression[i - 1].digitToInt() / expression[i + 1].digitToInt()
+                    println(temporalResult)
+                    temporalExpression.add(temporalResult.toChar())
+                }
+            }
+        }
+        if (expression[i] == '+' || expression[i] == '-') {
+            when (expressionOperator) {
+                "+" -> {
+                    temporalResult = expression[i - 1].digitToInt() * expression[i + 1].digitToInt()
+                    println(temporalResult)
+                    temporalExpression.add(temporalResult.toChar())
+                }
+
+                "-" -> {
+                    temporalResult = expression[i - 1].digitToInt() / expression[i + 1].digitToInt()
+                    println(temporalResult)
+                    temporalExpression.add(temporalResult.toChar())
+                }
+            }
+        }
+    }
+
+    for (i in temporalExpression.indices) {
+
+
+    }
+
+//    when (expressionOperator) {
+//        "+" -> {
+//            answer=expressionNumbers[0].digitToInt() + expressionNumbers[1].digitToInt()
+//            print("Result is ${answer}")
+//            return answer
+//        }
+//
+//        "-" -> {
+//            answer=expressionNumbers[0].digitToInt() - expressionNumbers[1].digitToInt()
+//            print("Result is ${answer}")
+//            return answer
+//        }
+//
+//        "*" -> {
+//            answer=expressionNumbers[0].digitToInt() * expressionNumbers[1].digitToInt()
+//            print("Result is ${answer}")
+//            return answer
+//        }
+//
+//        "/" -> {
+//            answer=expressionNumbers[0].digitToInt() * expressionNumbers[1].digitToInt()
+//            print("Result is ${answer}")
+//            return answer
+//        }
+//
+//        else -> {
+//            print("Error. Enter a correct operator")
+//            return null
+//        }
+//
+//    }
 }

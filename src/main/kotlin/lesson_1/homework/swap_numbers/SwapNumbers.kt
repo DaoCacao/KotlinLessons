@@ -20,5 +20,38 @@ package lesson_1.homework.swap_numbers
  * Hard mode: don't use a third variable.
  */
 fun main() {
-    TODO("Implement the program.")
+
+    println("Easymode")
+
+    var c: Int
+    var x = 1
+    var y = 2
+    println("x is $x")
+    println("y is $y")
+
+    c = x
+    x = y
+    y = c
+
+    println("Some magic happens")
+    println("Vjuuuhh")
+    println("x is $x")
+    println("y is $y")
+
+    println("\nHardmode\n")
+
+    var x1 = 1
+    var y1 = 2
+
+    println("x is $x")
+    println("y is $y")
+
+    x = y.also { y = x }
+
+    println("Some fucking awesome magic happens")
+    println("Vjuuuhh")
+
+    println("x is $x")
+    println("y is $y")
+
 }

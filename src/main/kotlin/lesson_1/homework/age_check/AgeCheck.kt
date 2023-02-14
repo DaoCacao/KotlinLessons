@@ -17,5 +17,31 @@ package lesson_1.homework.age_check
  *
  */
 fun main() {
-    TODO("Implement the program.")
+
+    var x: Int? = readln()!!.toIntOrNull()
+
+    ageCheck(x)
+}
+
+fun ageCheck(x: Int?): String {
+
+    var message: String
+
+    when (x) {
+        in 13..19 -> {
+            message = "User is a teenager"
+            print(message)
+        }
+
+        null -> {
+            message = "Error. Enter correct number"
+            print(message)
+        }
+
+        else -> {
+            message = "User is not a teenager"
+            print(message)
+        }
+    }
+    return message
 }
