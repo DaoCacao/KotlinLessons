@@ -15,9 +15,34 @@ import java.io.IOException
  * Hint: to read a documentation is always a good idea.
  */
 fun main() {
-    TODO("Implement me")
-}
+    try {
+        someFileOperation()
+        println("Operation succeed")
+    } catch (e: Throwable) {
+        when (e) {
+            is FileNotFoundException -> println("Files not founded")
+            is IOException -> println("Input-output error")
+            is NumberFormatException -> println("Use correct numbers")
+            is Exception -> println("Some Exception")
+        }
+    }
 
+    println("------------------------------------")
+
+    val tryCatch=try {
+        someFileOperation()
+        println("Operation succeed")
+    } catch (e: Throwable) {
+        when (e) {
+            is FileNotFoundException -> println("Files not founded")
+            is IOException -> println("Input-output error")
+            is NumberFormatException -> println("Use correct numbers")
+            is Exception -> println("Some Exception")
+            else -> println("Some more Exceptions")
+        }
+    }
+    return tryCatch
+}
 
 /**
  * Some interesting work with a file.
