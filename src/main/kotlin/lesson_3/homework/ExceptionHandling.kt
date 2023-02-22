@@ -29,19 +29,13 @@ fun main() {
 
     println("------------------------------------")
 
-    val tryCatch=try {
-        someFileOperation()
-        println("Operation succeed")
-    } catch (e: Throwable) {
-        when (e) {
-            is FileNotFoundException -> println("Files not founded")
-            is IOException -> println("Input-output error")
-            is NumberFormatException -> println("Use correct numbers")
-            is Exception -> println("Some Exception")
-            else -> println("Some more Exceptions")
-        }
-    }
-    return tryCatch
+    runCatching { someFileOperation() }.onFailure { when (it) {
+        is FileNotFoundException -> println("Files not founded")
+        is IOException -> println("Input-output error")
+        is NumberFormatException -> println("Use correct numbers")
+        is Exception -> println("Some Exception")
+    }}.onSuccess { println("Operation succeed") }
+
 }
 
 /**
