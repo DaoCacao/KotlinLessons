@@ -23,21 +23,20 @@ import kotlin.test.assertEquals
  * Hard level for self learning: Don't skip, make your functions generic!
  */
 fun main() {
-
     println("filtration")
     assertEquals(listOf(2, 4, 6, 8), filter(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)) { it % 2 == 0 })
+    assertEquals(listOf("a", "a", "a", "a"), filter(listOf("a", "b", "c", "d", "a", "a", "a")) { it == "a" })
     println("mapping")
-    assertEquals(listOf(2, 4, 6), map(listOf(1, 2, 3)) { it * 2 })
+    assertEquals(listOf(2.0, 4.0, 6.0), map(listOf(1.0, 2.0, 3.0)) { it * 2 })
     println("foundation")
-    assertEquals(3, find(listOf(1, 2, 3)) { it==3 })
+    assertEquals('3', find(listOf('1', '2', '3')) { it == '3' })
     println("forEaching")
-    forEach(listOf(1,2,3,4,5)){ println(it) }
-
+    forEach(listOf(1.0F, 2.0F, 3.0F, 4.0F, 5.0F)) { println(it) }
 }
 
-fun filter(list: List<Int>, filtration: (item: Int) -> Boolean): List<Int> {
+fun <T> filter(list: List<T>, filtration: (item: T) -> Boolean): List<T> {
 
-    var filtredList = mutableListOf<Int>()
+    var filtredList = mutableListOf<T>()
     for (i in list.indices) {
         if (filtration(list[i])) {
             filtredList.add(list[i])
@@ -47,17 +46,17 @@ fun filter(list: List<Int>, filtration: (item: Int) -> Boolean): List<Int> {
     return filtredList
 }
 
-fun map(list: List<Int>, mapping: (item: Int) -> Int): List<Int> {
-    var mappedList = mutableListOf<Int>()
+fun <T> map(list: List<T>, mapping: (item: T) -> T): List<T> {
+    var mappedList = mutableListOf<T>()
     for (i in list.indices) {
         mappedList.add(mapping(list[i]))
     }
     return mappedList
 }
 
-fun find(list: List<Int>, finding: (item: Int) -> Boolean): Int {
+fun <T> find(list: List<T>, finding: (item: T) -> Boolean): T? {
 
-    var findedItem=0
+    var findedItem: T? =null
     for (i in list.indices) {
         if (finding(list[i])) {
             findedItem = list[i]
@@ -66,7 +65,7 @@ fun find(list: List<Int>, finding: (item: Int) -> Boolean): Int {
     return findedItem
 }
 
-fun forEach(list: List<Int>, forEaching: (item: Int) -> Unit): Unit {
+fun <T> forEach(list: List<T>, forEaching: (item: T) -> Unit): Unit {
     for (i in list.indices) {
         forEaching(list[i])
     }
