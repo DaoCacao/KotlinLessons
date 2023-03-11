@@ -1,5 +1,8 @@
 package lesson_4.homework
 
+import java.io.File
+import java.nio.charset.Charset
+
 /**
  * So if you successfully implemented your own collections, you can read about file system in Kotlin.
  * https://www.studytonight.com/kotlin/kotlin-file-handling
@@ -14,3 +17,19 @@ package lesson_4.homework
  *
  * Good luck!
  */
+
+fun main() {
+
+    val fileName = "fileHW.txt"
+    val fileZapis = File(fileName).writeText("Ебать, смотри чё сделал")
+    println(File(fileName).readText(Charset.forName("UTF-8")))
+
+    writeAndReadFile("fileHW.txt", "Ebat cho proishodit")
+
+}
+
+fun writeAndReadFile(file: String, text: String) {
+    val fileZapis = File(file).appendText("\n $text")
+    File(file).useLines { println(File(file).readText(Charset.forName("UTF-8"))) }
+
+}

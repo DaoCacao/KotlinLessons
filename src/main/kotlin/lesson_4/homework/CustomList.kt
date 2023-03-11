@@ -65,3 +65,20 @@ package lesson_4.homework
  * - add a constructor that takes a count of elements and a lambda function that returns an element by its index.
  * - add(index, element): adds the element at the given index
  */
+
+fun main(){
+
+ var list=ListKirillaSet<Int>(1,2,3,4)
+}
+
+interface ListKirillaSet<E:Any>: MutableSet<E>{
+
+
+}
+
+interface ListKirillaMap<E:Any>: HashSet<E>{
+
+
+}
+
+MutableList<E>
