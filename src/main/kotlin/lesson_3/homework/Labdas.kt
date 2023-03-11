@@ -56,7 +56,7 @@ fun <T> map(list: List<T>, mapping: (item: T) -> T): List<T> {
 
 fun <T> find(list: List<T>, finding: (item: T) -> Boolean): T? {
 
-    var findedItem: T? =null
+    var findedItem: T? = null
     for (i in list.indices) {
         if (finding(list[i])) {
             findedItem = list[i]
