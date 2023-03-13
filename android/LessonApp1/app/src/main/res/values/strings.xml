@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TestApp</string>
+    <string name="enter_fibonacci_number_position">Enter fibonacci number position</string>
+    <string name="enter_number">enter number</string>
+    <string name="calculate">calculate</string>
 </resources>

@@ -1,9 +1,9 @@
 package com.example.testapp
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.testapp.databinding.ActivityFrameBinding
+import androidx.core.widget.doAfterTextChanged
+import com.example.testapp.databinding.ActivityMainBinding
 
 /** Activity - ComponentActivity - FragmentActivity - AppCompatActivity
  *
@@ -31,12 +31,31 @@ import com.example.testapp.databinding.ActivityFrameBinding
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var presenter: MainPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityFrameBinding.inflate(layoutInflater)
+
+        presenter = MainPresenter(this)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val textView1 = delegate.findViewById<TextView>(R.id.tv_title)
-        val textView2 = binding.textSubtitle
+
+        binding.button.isEnabled = false
+        binding.result.isEnabled = false
+        binding.input.doAfterTextChanged { presenter.onNumberInput(it.toString()) }
+        binding.input.doAfterTextChanged { binding.button.isEnabled = true }
+        binding.button.setOnClickListener { presenter.onButtonClick() }
+
+    }
+
+    fun showResult(result: Int) {
+        binding.result.text = result.toString()
+    }
+
+    fun buttonDisEnabling() {
+        binding.button.isEnabled = false
     }
 
     override fun onStart() {
