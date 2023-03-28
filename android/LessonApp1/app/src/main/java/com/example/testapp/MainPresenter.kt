@@ -1,34 +1,13 @@
 package com.example.testapp
 
-public class MainPresenter(private val _view: MainActivity) {
+public class MainPresenter(private val _view: MainActivity, private val fibo: Fibo) {
     var positionNumber: Int? = 0
     var fiboResult: Int=0
 
-    fun fibonachi(): Int {
-        var i = 1
-        var fib1 = 0
-        var fib2 = 1
-        var fib3 = 0
 
-        while (i != this.positionNumber) {
-
-            fib3 = fib1 + fib2
-            fib1 = fib2
-            fib2 = fib3
-            i++
-        }
-        when (i) {
-            1 -> this.fiboResult = 0
-            2 -> this.fiboResult = 1
-            else -> this.fiboResult = fib3
-        }
-
-        return fiboResult
-    }
     fun onButtonClick(){
-        fibonachi()
+        this.fiboResult=fibo.fibonachi(positionNumber)
         _view.showResult(this.fiboResult)
-        _view.buttonDisEnabling()
     }
 
     fun onNumberInput(_positionNumber: String) {

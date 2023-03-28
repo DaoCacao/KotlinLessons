@@ -2,7 +2,9 @@ package com.example.testapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import com.example.testapp.databinding.ActivityMainBinding
 
 /** Activity - ComponentActivity - FragmentActivity - AppCompatActivity
@@ -33,48 +35,32 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: MainPresenter
+    private lateinit var fibo: Fibo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = MainPresenter(this)
+        fibo=Fibo()
+        presenter = MainPresenter(this, fibo)
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.button.isEnabled = false
-        binding.result.isEnabled = false
-        binding.input.doAfterTextChanged { presenter.onNumberInput(it.toString()) }
-        binding.input.doAfterTextChanged { binding.button.isEnabled = true }
-        binding.button.setOnClickListener { presenter.onButtonClick() }
+        binding.input.doAfterTextChanged {
+            presenter.onNumberInput(it.toString())
+        }
+        binding.input.doOnTextChanged { text, start, before, count ->
+            binding.button.isEnabled = binding.input.text.isNotEmpty()
+        }
 
+        binding.button.setOnClickListener { presenter.onButtonClick() }
     }
 
     fun showResult(result: Int) {
         binding.result.text = result.toString()
     }
 
-    fun buttonDisEnabling() {
-        binding.button.isEnabled = false
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
+
