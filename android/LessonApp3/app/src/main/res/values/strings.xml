@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LessonApp3</string>
+    <string name="you_re_welcome_my_dude">You\'re welcome, my dude</string>
+    <string name="sign_in">Sign in</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
