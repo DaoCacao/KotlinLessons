@@ -26,7 +26,31 @@ class UserService {
      *
      */
     fun signUp(login: String, password: String, name: String): Single<User> {
-        TODO("Implement this function using reactive way")
+
+        return Single.create {
+            if (login.length < 3) {
+                it.onError(SignUpException.InvalidLogin)
+                return@create
+            }
+            if (password.length < 6) {
+                it.onError(SignUpException.InvalidPassword)
+                return@create
+            }
+            if (name.length < 3) {
+                it.onError(SignUpException.InvalidName)
+                return@create
+            }
+            for (_userNames in users.values) {
+                if (_userNames.name == name) {
+                    it.onError(SignUpException.UserAlreadyExists)
+                    return@create
+                }
+            }
+            val id = users.values.map { it.id }.max()
+
+            it.onSuccess(User(1 + id, name))
+
+        }
     }
 
     /**
@@ -38,8 +62,34 @@ class UserService {
      * - Else [User] is signed in and returned.
      */
     fun signIn(login: String, password: String): Single<User> {
-        TODO("Implement this function using reactive way")
+        return Single.create {
+
+            var loginCheck = false
+            var passwordCheck = false
+
+            for (_user in users.keys) {
+                if (_user.login == login) {
+                    loginCheck = true
+                }
+            }
+            if (!loginCheck) {
+                it.onError(SignInException.UserNotFound)
+                return@create
+            }
+
+            for (_user in users.keys) {
+                if (_user.password == password)
+                    passwordCheck = true
+            }
+            if (!passwordCheck) {
+                it.onError(SignInException.UserNotFound)
+                return@create
+            }
+
+            it.onSuccess(users[Credentials(login, password)]!!)
+        }
     }
+
 
     /**
      * Returns user with given [userId].
@@ -49,7 +99,16 @@ class UserService {
      * - Else [User] is returned.
      */
     fun getUser(userId: Int): Single<User> {
-        TODO("Implement this function using reactive way")
+        return Single.create {
+            for (_users in users.values) {
+                if (_users.id == userId) {
+                    it.onSuccess(_users)
+                    return@create
+                }
+            }
+            it.onError(GetUserException.UserNotFound)
+            return@create
+        }
     }
 }
 
