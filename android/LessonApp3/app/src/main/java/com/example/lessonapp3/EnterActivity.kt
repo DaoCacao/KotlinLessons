@@ -16,7 +16,7 @@ class EnterActivity : AppCompatActivity() {
         val signUpButton = binding.btnSignUp
 
         signInButton.setOnClickListener {
-            val intent = Intent(this@EnterActivity, SignUpActivity::class.java)
+            val intent = Intent(this@EnterActivity, SignInActivity::class.java)
             startActivity(intent)
         }
 
