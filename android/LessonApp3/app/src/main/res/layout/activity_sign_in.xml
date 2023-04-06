@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity">
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,8 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="50dp"
         android:layout_marginTop="300dp"/>
-    <EditText
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

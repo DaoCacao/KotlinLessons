@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@id/btnSignIn"
         app:layout_constraintStart_toStartOf="@id/btnSignIn"
         app:layout_constraintEnd_toEndOf="@id/btnSignIn"
-        android:text="@string/sign_in"
+        android:text="@string/sign_up"
         android:paddingVertical="10dp"
         />
 
