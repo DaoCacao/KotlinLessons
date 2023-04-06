@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Single
  *
  * You can use this service to sign up and sign in users.
  */
-class UserService {
+open class UserService {
 
     /**
      * Signs up user with given [login], [password] and [name].

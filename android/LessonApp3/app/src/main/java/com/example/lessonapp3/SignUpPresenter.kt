@@ -1,4 +1,10 @@
 package com.example.lessonapp3
 
-class SignUpPresenter {
+import android.app.Activity
+
+class SignUpPresenter(view: Activity): SignUpInterface.Presenter, UserService() {
+
+    override fun signningUp() {
+
+    }
 }
