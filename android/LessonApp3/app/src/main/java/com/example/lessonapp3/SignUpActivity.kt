@@ -1,23 +1,36 @@
 package com.example.lessonapp3
 
 import android.content.Intent
-import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.lessonapp3.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity(), SignUpInterface.View {
     private lateinit var binding: ActivitySignUpBinding
+    private lateinit var presenter: SignUpPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val presenter=SignUpPresenter(this)
         val binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val toEnterActivityButton = binding.ibtnToEnterActivity
 
-        val goBackButton = binding.ibtnGoBack
+        val loginField=binding.etLogin
+        val nameField=binding.etName
+        val passwordField=binding.etPassword
+        val passwordConfirmField=binding.etConfirmPassword
 
-        goBackButton.setOnClickListener {
-            goBackToEnterActivity()
+        toEnterActivityButton.setOnClickListener {
+            navigationToEnterActivity()
         }
     }
+
+    override fun navigationToEnterActivity() {
+        val intent = Intent(this@SignUpActivity, EnterActivity::class.java)
+        startActivity(intent)
+    }
 }
+
+
