@@ -1,9 +1,11 @@
 package com.example.testapp
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.testapp.databinding.ActivityFrameBinding
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+import com.example.testapp.databinding.ActivityMainBinding
 
 /** Activity - ComponentActivity - FragmentActivity - AppCompatActivity
  *
@@ -31,31 +33,34 @@ import com.example.testapp.databinding.ActivityFrameBinding
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var presenter: MainPresenter
+    private lateinit var fibo: Fibo
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityFrameBinding.inflate(layoutInflater)
+
+        fibo=Fibo()
+        presenter = MainPresenter(this, fibo)
+
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val textView1 = delegate.findViewById<TextView>(R.id.tv_title)
-        val textView2 = binding.textSubtitle
+
+        binding.button.isEnabled = false
+        binding.input.doAfterTextChanged {
+            presenter.onNumberInput(it.toString())
+        }
+        binding.input.doOnTextChanged { text, start, before, count ->
+            binding.button.isEnabled = binding.input.text.isNotEmpty()
+        }
+
+        binding.button.setOnClickListener { presenter.onButtonClick() }
     }
 
-    override fun onStart() {
-        super.onStart()
+    fun showResult(result: Int) {
+        binding.result.text = result.toString()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
+
