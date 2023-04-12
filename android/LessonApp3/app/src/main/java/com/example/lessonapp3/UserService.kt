@@ -25,9 +25,10 @@ open class UserService {
      * - Else [User] with given [login], [password] and [name] is created, saved and returned.
      *
      */
-    fun signUp(login: String, password: String, name: String): Single<User> {
+     fun signUp(login: String, password: String, name: String): Single<User> {
 
         return Single.create {
+
             if (login.length < 3) {
                 it.onError(SignUpException.InvalidLogin)
                 return@create
@@ -40,16 +41,20 @@ open class UserService {
                 it.onError(SignUpException.InvalidName)
                 return@create
             }
+
             for (_userNames in users.values) {
                 if (_userNames.name == name) {
                     it.onError(SignUpException.UserAlreadyExists)
                     return@create
                 }
             }
-            val id = users.values.map { it.id }.max()
 
+
+            val id = users.values.map { it -> it.id }.max()
+
+            val user=User(1 + id, name)
+            users[Credentials(login, password)] = user
             it.onSuccess(User(1 + id, name))
-
         }
     }
 

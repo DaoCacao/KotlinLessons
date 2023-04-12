@@ -1,12 +1,11 @@
 package com.example.lessonapp3
 
-object SignUpInterface {
+object SignInObject {
     interface View{
         fun navigationToEnterActivity()
+        fun navigationToMainActivity()
     }
     interface Presenter{
-
-        fun signningUp()
-
+        fun signInInterface()
     }
 }
