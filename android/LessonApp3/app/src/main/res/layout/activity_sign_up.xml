@@ -6,25 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
-    <EditText
-        android:id="@+id/etLogin"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ilLogin"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="53dp"
-        android:layout_marginTop="300dp"/>
-    <EditText
+        android:layout_marginTop="300dp" >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="53dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/name"
-        app:layout_constraintTop_toBottomOf="@id/etLogin"
-        app:layout_constraintEnd_toEndOf="@id/etLogin"
-        app:layout_constraintStart_toStartOf="@id/etLogin"
+        app:layout_constraintTop_toBottomOf="@id/ilLogin"
+        app:layout_constraintEnd_toEndOf="@id/ilLogin"
+        app:layout_constraintStart_toStartOf="@id/ilLogin"
         android:paddingVertical="10dp"
         android:paddingHorizontal="50dp"
         />
@@ -34,8 +43,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         app:layout_constraintTop_toBottomOf="@id/etName"
-        app:layout_constraintEnd_toEndOf="@id/etLogin"
-        app:layout_constraintStart_toStartOf="@id/etLogin"
+        app:layout_constraintEnd_toEndOf="@id/ilLogin"
+        app:layout_constraintStart_toStartOf="@id/ilLogin"
         android:paddingVertical="10dp"
         android:paddingHorizontal="33dp"
         />

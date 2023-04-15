@@ -50,11 +50,19 @@ open class UserService {
             }
 
 
-            val id = users.values.map { it -> it.id }.max()
+            val id = users.values.map { it -> it.id }.maxOrNull()
 
-            val user=User(1 + id, name)
-            users[Credentials(login, password)] = user
-            it.onSuccess(User(1 + id, name))
+            if(id!=null){
+                val user=User(1 + id, name)
+                users[Credentials(login, password)] = user
+                it.onSuccess(User(1 + id, name))
+            }
+            else{
+                val user=User(1, name)
+                users[Credentials(login, password)] = user
+                it.onSuccess(User(1, name))
+            }
+
         }
     }
 

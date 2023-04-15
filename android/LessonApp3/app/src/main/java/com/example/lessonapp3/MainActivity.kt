@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity(), MainObject.View {
         var presenter=MainPresenter(this)
 
         binding.btnSigninOut.setOnClickListener {
-            signOut()
+            presenter.signOut()
         }
     }
 
-    override fun signOut() {
+    override fun navigationToEnterActivity() {
         val intent= Intent(this, EnterActivity::class.java)
         startActivity(intent)
     }

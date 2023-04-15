@@ -1,4 +1,8 @@
 package com.example.lessonapp3
 
-class MainPresenter(_view: MainActivity): MainObject.Presenter {
+class MainPresenter(private val _view: MainActivity): MainObject.Presenter {
+
+    override fun signOut() {
+        _view.navigationToEnterActivity()
+    }
 }

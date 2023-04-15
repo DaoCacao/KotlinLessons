@@ -2,8 +2,9 @@ package com.example.lessonapp3
 
 object MainObject {
     interface View{
-        fun signOut()
+        fun navigationToEnterActivity()
     }
     interface Presenter{
+        fun signOut()
     }
 }

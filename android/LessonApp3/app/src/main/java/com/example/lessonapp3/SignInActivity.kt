@@ -21,14 +21,25 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
         }
 
         binding.etLogin.doAfterTextChanged {
-
+            presenter.loginInput(it.toString())
         }
 
         binding.etPassword.doAfterTextChanged {
-
+            presenter.passwordInput(it.toString())
+        }
+        binding.btnSignIn.setOnClickListener {
+            presenter.signInInterface()
         }
     }
 
+
+
+    override fun userNotFoundException() {
+        TODO("Not yet implemented")
+    }
+    override fun invalidPAsswordException() {
+        TODO("Not yet implemented")
+    }
 
     override fun navigationToEnterActivity() {
         val intent = Intent(this@SignInActivity, EnterActivity::class.java)
