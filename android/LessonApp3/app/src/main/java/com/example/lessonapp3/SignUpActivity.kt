@@ -14,11 +14,13 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val presenter=SignUpPresenter(this, UserService())
+        val presenter = SignUpPresenter(this, UserService())
         val binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
+
+        binding.ilLogin.error="Invalid login"
 
         binding.etLogin.doAfterTextChanged {
             presenter.loginInput(it.toString())
@@ -42,15 +44,40 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
         }
     }
 
+
+    override fun inavalidName() {
+        TODO("Not yet implemented")
+    }
+
+    override fun invalidLogin() {
+        TODO("Not yet implemented")
+    }
+
+    override fun invalidPassword() {
+        TODO("Not yet implemented")
+    }
+
+    override fun invalidConfirmPassword() {
+        TODO("Not yet implemented")
+    }
+
     override fun navigationToEnterActivity() {
         val intent = Intent(this@SignUpActivity, EnterActivity::class.java)
         startActivity(intent)
+
     }
 
     override fun navigationToMainActivity() {
-        val intent= Intent(this@SignUpActivity, MainActivity::class.java)
+        val intent = Intent(this@SignUpActivity, MainActivity::class.java).apply {
+//            putExtra(
+//                "id",
+//                presenter.idToMainActivity()
+//            )
+        }
         startActivity(intent)
     }
+
+
 }
 
 

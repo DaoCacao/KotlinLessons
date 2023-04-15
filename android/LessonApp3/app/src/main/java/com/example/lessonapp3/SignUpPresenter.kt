@@ -18,19 +18,22 @@ class SignUpPresenter(
 
 
     override fun loginInput(data: String): String {
-        _login=data
+        _login = data
         return _login
     }
+
     override fun nameInput(data: String): String {
-        _name=data
+        _name = data
         return _name
     }
+
     override fun passwordInput(data: String): String {
-        _password=data
+        _password = data
         return _password
     }
+
     override fun confirmPasswordInput(data: String): String {
-        _confirmPassword=data
+        _confirmPassword = data
         return _confirmPassword
     }
 
@@ -38,29 +41,35 @@ class SignUpPresenter(
     override fun signUp_interface() {
 
         if (_confirmPassword == _password) {
-            try {
-                disposable=_userService.signUp(
-                    _login,
-                    _password,
-                    _name,
-                ).subscribe { user ->
+
+            disposable = _userService.signUp(
+                _login,
+                _password,
+                _name,
+            ).subscribe(
+                { user ->
                     _id = user.id
                     _view.navigationToMainActivity()
-                }
-                //disposable.dispose()
+                },
+                {
+                    println("ХУИТА")
+                    when (it) {
+                        SignUpException.InvalidLogin -> {}
+                        SignUpException.UserAlreadyExists -> {}
+                        SignUpException.InvalidName -> {}
+                        SignUpException.InvalidPassword -> {}
+                    }
+                })
+            //disposable.dispose()
 
-            } catch (e: Exception) {
-                when(e){
-                    SignUpException.InvalidName ->{}
-                    SignUpException.UserAlreadyExists ->{}
-                    //SignUpException.InvalidLogin ->{}
-                }
-            }
         } else {
             throw SignUpDeviceException.InvalidConfirmePassword
         }
     }
 
+    override fun idToMainActivity(): Int {
+        return _id
+    }
 
 
     sealed class SignUpDeviceException : Exception() {

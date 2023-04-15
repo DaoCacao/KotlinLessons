@@ -1,15 +1,39 @@
 package com.example.lessonapp3
 
 import android.app.Activity
-
-class SignInPresenter(_view: Activity, _userService: UserService): SignUpObject.Presenter {
-
-    var _login=""
-    var _password=""
+import io.reactivex.rxjava3.disposables.Disposable
 
 
+class SignInPresenter(private val _view: SignInActivity, private val _userService: UserService) :
+    SignInObject.Presenter {
 
-    override fun signUp_interface() {
-        TODO("Not yet implemented")
+    private var _login = ""
+    private var _password = ""
+    private var _id = 0
+    private lateinit var disposable: Disposable
+
+    override fun loginInput(data: String): String {
+        _login = data
+        return _login
+    }
+
+    override fun passwordInput(data: String): String {
+        _password = data
+        return data
+    }
+
+    override fun signInInterface() {
+        var disposable = _userService.signIn(_login, _password).subscribe({ user ->
+            _id = user.id
+            _view.navigationToEnterActivity()
+        },
+            {
+                println("ХУИТА")
+                when (it) {
+                    SignInException.UserNotFound -> {}
+                    SignInException.InvalidPassword -> {}
+
+                }
+            })
     }
 }
