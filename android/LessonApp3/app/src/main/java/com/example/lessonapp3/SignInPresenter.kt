@@ -22,18 +22,27 @@ class SignInPresenter(private val _view: SignInActivity, private val _userServic
         return data
     }
 
+    override fun getId(): Int {
+        return _id
+    }
+
     override fun signInInterface() {
         var disposable = _userService.signIn(_login, _password).subscribe({ user ->
             _id = user.id
-            _view.navigationToEnterActivity()
+            _view.navigationToMainActivity()
         },
             {
+                _view.disableErrors()
                 println("ХУИТА")
                 when (it) {
-                    SignInException.UserNotFound -> {}
-                    SignInException.InvalidPassword -> {}
-
+                    SignInException.UserNotFound -> {_view.userNotFoundException()}
+                    SignInException.InvalidPassword -> {_view.invalidPAsswordException()}
                 }
             })
+
+    }
+
+    override fun dispose() {
+        disposable.dispose()
     }
 }

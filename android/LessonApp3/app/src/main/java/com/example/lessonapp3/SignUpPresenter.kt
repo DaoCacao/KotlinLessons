@@ -13,7 +13,7 @@ class SignUpPresenter(
     private var _name: String = ""
     private var _password: String = ""
     private var _confirmPassword = ""
-    private var _id = 0
+    private var _id=0
     private lateinit var disposable: Disposable
 
 
@@ -21,17 +21,14 @@ class SignUpPresenter(
         _login = data
         return _login
     }
-
     override fun nameInput(data: String): String {
         _name = data
         return _name
     }
-
     override fun passwordInput(data: String): String {
         _password = data
         return _password
     }
-
     override fun confirmPasswordInput(data: String): String {
         _confirmPassword = data
         return _confirmPassword
@@ -48,26 +45,32 @@ class SignUpPresenter(
                 _name,
             ).subscribe(
                 { user ->
-                    _id = user.id
-                    _view.navigationToMainActivity()
+                    _id=user.id
+                    _view.navigationToMainActivity(_id)
                 },
                 {
                     println("ХУИТА")
+                    _view.disableErrors()
                     when (it) {
-                        SignUpException.InvalidLogin -> {}
-                        SignUpException.UserAlreadyExists -> {}
-                        SignUpException.InvalidName -> {}
-                        SignUpException.InvalidPassword -> {}
+                        is SignUpException.InvalidLogin -> {_view.invalidLogin()}
+                        SignUpException.UserAlreadyExists -> {_view.userAlreadyExist()}
+                        SignUpException.InvalidName -> {_view.inavalidName()}
+                        SignUpException.InvalidPassword -> {_view.invalidPassword()}
                     }
                 })
-            //disposable.dispose()
 
         } else {
-            throw SignUpDeviceException.InvalidConfirmePassword
+            _view.invalidConfirmPassword()
         }
     }
 
-    override fun idToMainActivity(): Int {
+    fun dispose(){
+        disposable.dispose()
+    }
+
+
+
+    override fun getId(): Int {
         return _id
     }
 

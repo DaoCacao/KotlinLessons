@@ -11,9 +11,9 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
     private lateinit var presenter: SignInPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySignInBinding.inflate(layoutInflater)
+        binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val presenter = SignInPresenter(this, UserService())
+        presenter = SignInPresenter(this, UserService())
 
 
         binding.ibtnToEnterActivity.setOnClickListener {
@@ -32,13 +32,23 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dispose()
+    }
 
+
+    override fun disableErrors() {
+        binding.ilLogin.error = null
+        binding.ilPassword.error = null
+    }
 
     override fun userNotFoundException() {
-        TODO("Not yet implemented")
+        binding.ilLogin.error = "User didn't found"
     }
+
     override fun invalidPAsswordException() {
-        TODO("Not yet implemented")
+        binding.ilPassword.error = "Invalid password"
     }
 
     override fun navigationToEnterActivity() {
@@ -47,7 +57,13 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
     }
 
     override fun navigationToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra(ID, presenter.getId())
+        }
         startActivity(intent)
+    }
+
+    companion object {
+        val ID = "id"
     }
 }
