@@ -14,13 +14,11 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val presenter = SignUpPresenter(this, UserService())
-        val binding = ActivitySignUpBinding.inflate(layoutInflater)
+        presenter = SignUpPresenter(this, UserService())
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-
-        binding.ilLogin.error="Invalid login"
 
         binding.etLogin.doAfterTextChanged {
             presenter.loginInput(it.toString())
@@ -37,6 +35,7 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
 
         binding.btnSignUn.setOnClickListener {
             presenter.signUp_interface()
+
         }
 
         binding.ibtnToEnterActivity.setOnClickListener {
@@ -44,20 +43,30 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
         }
     }
 
+    override fun disableErrors() {
+        binding.ilName.error = null
+        binding.ilLogin.error = null
+        binding.ilPassword.error = null
+        binding.ilConfirmPassword.error = null
+    }
 
     override fun inavalidName() {
-        TODO("Not yet implemented")
+        binding.ilName.error = "Invalid name. Enter at least 3 characters"
     }
 
     override fun invalidLogin() {
-        TODO("Not yet implemented")
+        binding.ilLogin.error = "Invalid login. Enter at least 3 characters"
     }
 
     override fun invalidPassword() {
-        TODO("Not yet implemented")
+        binding.ilPassword.error = "Invalid password. Enter at least 6 characters"
     }
 
     override fun invalidConfirmPassword() {
+        binding.ilConfirmPassword.error = "Passwords are different"
+    }
+
+    override fun userAlreadyExist() {
         TODO("Not yet implemented")
     }
 
@@ -67,17 +76,21 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
 
     }
 
-    override fun navigationToMainActivity() {
+    override fun navigationToMainActivity(id: Int) {
         val intent = Intent(this@SignUpActivity, MainActivity::class.java).apply {
-//            putExtra(
-//                "id",
-//                presenter.idToMainActivity()
-//            )
+            putExtra(ID, id)
         }
         startActivity(intent)
     }
 
+    companion object SignUpCompanion {
+        private const val ID = "id"
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dispose()
+    }
 }
 
 

@@ -10,9 +10,10 @@ class MainActivity : AppCompatActivity(), MainObject.View {
     private lateinit var presenter: MainPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding=ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var presenter=MainPresenter(this)
+        presenter = MainPresenter(this, UserService())
+        presenter.userInitialization(intent.getIntExtra(ID, 0))
 
         binding.btnSigninOut.setOnClickListener {
             presenter.signOut()
@@ -20,7 +21,21 @@ class MainActivity : AppCompatActivity(), MainObject.View {
     }
 
     override fun navigationToEnterActivity() {
-        val intent= Intent(this, EnterActivity::class.java)
+        val intent = Intent(this, EnterActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun welcomText(user: Boolean) {
+        return if (user){
+            binding.tvMainActivity.text ="You are welcome, ${presenter._user.name}"
+        }else{
+            binding.tvMainActivity.text ="We can't find you, maybe you don't exist"
+        }
+    }
+
+    companion object {
+        var ID = "id"
+        fun toMainActivity() {
+        }
     }
 }
