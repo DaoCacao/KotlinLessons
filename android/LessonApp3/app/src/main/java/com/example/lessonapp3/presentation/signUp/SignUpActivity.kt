@@ -1,10 +1,14 @@
-package com.example.lessonapp3
+package com.example.lessonapp3.presentation.signUp
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.widget.doAfterTextChanged
+import com.example.lessonapp3.R
+import com.example.lessonapp3.UserService
 import com.example.lessonapp3.databinding.ActivitySignUpBinding
+import com.example.lessonapp3.presentation.enter.EnterActivity
+import com.example.lessonapp3.presentation.main.MainActivity
 
 
 class SignUpActivity : AppCompatActivity(), SignUpObject.View {
@@ -34,7 +38,7 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
         }
 
         binding.btnSignUn.setOnClickListener {
-            presenter.signUp_interface()
+            presenter.signUp()
 
         }
 
@@ -50,20 +54,25 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
         binding.ilConfirmPassword.error = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dispose()
+    }
+
     override fun inavalidName() {
-        binding.ilName.error = "Invalid name. Enter at least 3 characters"
+        binding.ilName.error = getString(R.string.invalid_name)
     }
 
     override fun invalidLogin() {
-        binding.ilLogin.error = "Invalid login. Enter at least 3 characters"
+        binding.ilLogin.error = getString(R.string.invalid_login)
     }
 
     override fun invalidPassword() {
-        binding.ilPassword.error = "Invalid password. Enter at least 6 characters"
+        binding.ilPassword.error = getString(R.string.short_password)
     }
 
     override fun invalidConfirmPassword() {
-        binding.ilConfirmPassword.error = "Passwords are different"
+        binding.ilConfirmPassword.error = getString(R.string.passwords_are_different)
     }
 
     override fun userAlreadyExist() {
@@ -83,13 +92,9 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
         startActivity(intent)
     }
 
+
     companion object SignUpCompanion {
         private const val ID = "id"
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.dispose()
     }
 }
 

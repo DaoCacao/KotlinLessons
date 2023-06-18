@@ -1,4 +1,4 @@
-package com.example.lessonapp3
+package com.example.lessonapp3.presentation.signUp
 
 object SignUpObject {
     interface View{
@@ -12,12 +12,12 @@ object SignUpObject {
         fun disableErrors()
     }
     interface Presenter{
-        fun signUp_interface()
+        fun signUp()
 //        fun idInitialization(id: Int): Int
-        fun loginInput(data: String): String
-        fun nameInput(data: String): String
-        fun passwordInput(data: String): String
-        fun confirmPasswordInput(data: String): String
+        fun loginInput(data: String)
+        fun nameInput(data: String)
+        fun passwordInput(data: String)
+        fun confirmPasswordInput(data: String)
         fun getId():Int
 
     }

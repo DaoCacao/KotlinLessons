@@ -1,20 +1,23 @@
-package com.example.lessonapp3
+package com.example.lessonapp3.presentation.signIn
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.widget.doAfterTextChanged
+import com.example.lessonapp3.R
+import com.example.lessonapp3.presentation.enter.EnterActivity
+import com.example.lessonapp3.UserService
 import com.example.lessonapp3.databinding.ActivitySignInBinding
+import com.example.lessonapp3.presentation.main.MainActivity
 
 class SignInActivity : AppCompatActivity(), SignInObject.View {
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var presenter: SignInPresenter
+    private lateinit var presenter: SignInObject.Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
         presenter = SignInPresenter(this, UserService())
-
 
         binding.ibtnToEnterActivity.setOnClickListener {
             navigationToEnterActivity()
@@ -28,7 +31,7 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
             presenter.passwordInput(it.toString())
         }
         binding.btnSignIn.setOnClickListener {
-            presenter.signInInterface()
+            presenter.signIn()
         }
     }
 
@@ -37,18 +40,17 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
         presenter.dispose()
     }
 
-
     override fun disableErrors() {
         binding.ilLogin.error = null
         binding.ilPassword.error = null
     }
 
-    override fun userNotFoundException() {
-        binding.ilLogin.error = "User didn't found"
+    override fun userNotFound() {
+        binding.ilLogin.error = getString(R.string.user_did_not_found)
     }
 
-    override fun invalidPAsswordException() {
-        binding.ilPassword.error = "Invalid password"
+    override fun invalidPAssword() {
+        binding.ilPassword.error = getString(R.string.invalid_password)
     }
 
     override fun navigationToEnterActivity() {
@@ -56,9 +58,9 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
         startActivity(intent)
     }
 
-    override fun navigationToMainActivity() {
+    override fun navigationToMainActivity(userId: Int) {
         val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra(ID, presenter.getId())
+            putExtra(ID, userId)
         }
         startActivity(intent)
     }

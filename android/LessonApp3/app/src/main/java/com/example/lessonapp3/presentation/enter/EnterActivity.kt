@@ -1,9 +1,11 @@
-package com.example.lessonapp3
+package com.example.lessonapp3.presentation.enter
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.lessonapp3.presentation.signUp.SignUpActivity
 import com.example.lessonapp3.databinding.ActivityEnterBinding
+import com.example.lessonapp3.presentation.signIn.SignInActivity
 
 class EnterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEnterBinding

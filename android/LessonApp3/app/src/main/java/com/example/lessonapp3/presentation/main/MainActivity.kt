@@ -1,13 +1,16 @@
-package com.example.lessonapp3
+package com.example.lessonapp3.presentation.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.lessonapp3.R
+import com.example.lessonapp3.presentation.enter.EnterActivity
+import com.example.lessonapp3.UserService
 import com.example.lessonapp3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainObject.View {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var presenter: MainPresenter
+    private lateinit var presenter: MainObject.Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -20,22 +23,26 @@ class MainActivity : AppCompatActivity(), MainObject.View {
         }
     }
 
-    override fun navigationToEnterActivity() {
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dispose()
+    }
+
+    override fun navigateToEnterActivity() {
         val intent = Intent(this, EnterActivity::class.java)
         startActivity(intent)
     }
 
-    override fun welcomText(user: Boolean) {
-        return if (user){
-            binding.tvMainActivity.text ="You are welcome, ${presenter._user.name}"
-        }else{
-            binding.tvMainActivity.text ="We can't find you, maybe you don't exist"
+    override fun showWelcomText(userExist: Boolean, userName: String) {
+        return if (userExist) {
+            binding.tvWelcomeText.text = getString(R.string.you_are_welcome) + userName
+        } else {
+            binding.tvWelcomeText.text = getString(R.string.we_cant_find_you)
         }
     }
 
+
     companion object {
-        var ID = "id"
-        fun toMainActivity() {
-        }
+        val ID = "id"
     }
 }

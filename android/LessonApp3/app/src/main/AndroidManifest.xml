@@ -12,17 +12,19 @@
         android:theme="@style/Theme.LessonApp3"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".SignUpActivity"
+            android:name=".JediActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".presentation.main.MainActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".presentation.signUp.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".EnterActivity"
+            android:name=".presentation.signIn.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.enter.EnterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,4 +33,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

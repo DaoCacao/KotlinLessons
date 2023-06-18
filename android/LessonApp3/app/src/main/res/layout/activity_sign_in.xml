@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInActivity">
+    tools:context=".presentation.signIn.SignInActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ilLogin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="180dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="240dp"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,6 @@
             android:id="@+id/etLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="300dp"
             android:hint="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +30,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ilPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="180dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         app:endIconMode="password_toggle"
@@ -55,9 +54,9 @@
         android:id="@+id/btnSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingVertical="10dp"
-        android:layout_marginStart="90dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="8dp"
+        android:layout_marginStart="80dp"
         android:text="@string/sign_in"
         app:layout_constraintEnd_toEndOf="@id/ilPassword"
         app:layout_constraintStart_toStartOf="@id/ilPassword"

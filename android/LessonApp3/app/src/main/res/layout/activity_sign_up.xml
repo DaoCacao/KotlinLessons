@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    tools:context=".presentation.signUp.SignUpActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ilLogin"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login"
-            android:paddingVertical="10dp"
+            android:paddingVertical="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
-            android:paddingVertical="10dp"
+            android:paddingVertical="8dp"
             app:layout_constraintEnd_toEndOf="@id/ilLogin"
             app:layout_constraintStart_toStartOf="@id/ilLogin"
             app:layout_constraintTop_toBottomOf="@id/ilLogin" />
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:paddingVertical="10dp"
+            android:paddingVertical="8dp"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@id/ilLogin"
             app:layout_constraintStart_toStartOf="@id/ilLogin"
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
-            android:paddingVertical="10dp"
+            android:paddingVertical="8dp"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@id/ilPassword"
             app:layout_constraintStart_toStartOf="@id/ilPassword"
@@ -103,9 +103,9 @@
         android:id="@+id/btnSignUn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="10dp"
-        android:paddingVertical="10dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="8dp"
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="@id/ilConfirmPassword"
         app:layout_constraintStart_toStartOf="@id/ilConfirmPassword"
@@ -127,16 +127,4 @@
 
     </Toolbar>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="btnSignUn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

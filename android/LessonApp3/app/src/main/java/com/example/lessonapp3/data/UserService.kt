@@ -1,5 +1,6 @@
 package com.example.lessonapp3
 
+import com.example.lessonapp3.data.User
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -7,7 +8,7 @@ import io.reactivex.rxjava3.core.Single
  *
  * You can use this service to sign up and sign in users.
  */
-open class UserService {
+class UserService {
 
     /**
      * Signs up user with given [login], [password] and [name].
@@ -25,7 +26,7 @@ open class UserService {
      * - Else [User] with given [login], [password] and [name] is created, saved and returned.
      *
      */
-     fun signUp(login: String, password: String, name: String): Single<User> {
+    fun signUp(login: String, password: String, name: String): Single<User> {
 
         return Single.create {
 
@@ -42,27 +43,23 @@ open class UserService {
                 return@create
             }
 
-            for (_userNames in users.values) {
-                if (_userNames.name == name) {
+            for (userNames in users.keys) {
+                if (userNames.login == login) {
                     it.onError(SignUpException.UserAlreadyExists)
                     return@create
                 }
             }
 
-
             val id = users.values.map { it -> it.id }.maxOrNull()
 
-            if(id!=null){
-                val user=User(1 + id, name)
-                users[Credentials(login, password)] = user
-                it.onSuccess(User(1 + id, name))
-            }
-            else{
-                val user=User(1, name)
-                users[Credentials(login, password)] = user
-                it.onSuccess(User(1, name))
-            }
+            val user = if (id != null) {
+                User(1 + id, name)
 
+            } else {
+                User(1, name)
+            }
+            users[Credentials(login, password)] = user
+            it.onSuccess(user)
         }
     }
 
@@ -78,23 +75,17 @@ open class UserService {
         return Single.create {
 
             var loginCheck = false
-            var passwordCheck = false
 
-            for (_user in users.keys) {
-                if (_user.login == login) {
+            for (user in users.keys) {
+                if (user.login == login) {
                     loginCheck = true
+                }
+                if (loginCheck || user.password != password) {
+                    it.onError(SignInException.UserNotFound)
+                    return@create
                 }
             }
             if (!loginCheck) {
-                it.onError(SignInException.UserNotFound)
-                return@create
-            }
-
-            for (_user in users.keys) {
-                if (_user.password == password)
-                    passwordCheck = true
-            }
-            if (!passwordCheck) {
                 it.onError(SignInException.UserNotFound)
                 return@create
             }
@@ -113,9 +104,9 @@ open class UserService {
      */
     fun getUser(userId: Int): Single<User> {
         return Single.create {
-            for (_users in users.values) {
-                if (_users.id == userId) {
-                    it.onSuccess(_users)
+            for (users in users.values) {
+                if (users.id == userId) {
+                    it.onSuccess(users)
                     return@create
                 }
             }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EnterActivity">
+    tools:context=".presentation.enter.EnterActivity">
 
     <TextView
         android:id="@+id/tvWelcome"
@@ -15,8 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="28sp"
-        android:paddingVertical="15dp"
-        android:layout_marginTop="300dp"
+        android:paddingVertical="16dp"
+        android:layout_marginTop="240dp"
         android:textColor="@color/black"
         />
     <Button
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="@id/tvWelcome"
         app:layout_constraintEnd_toEndOf="@id/tvWelcome"
         android:text="@string/sign_in"
-        android:paddingVertical="10dp"
+        android:paddingVertical="8dp"
         />
     <Button
         android:id="@+id/btnSignUp"
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="@id/btnSignIn"
         app:layout_constraintEnd_toEndOf="@id/btnSignIn"
         android:text="@string/sign_up"
-        android:paddingVertical="10dp"
+        android:paddingVertical="8p"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
