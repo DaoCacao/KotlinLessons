@@ -7,5 +7,5 @@ data class BaseRaw<R>(
     @SerializedName("count") val count: Int,
     @SerializedName("next") val next: String?,
     @SerializedName("previous") val previous: String?,
-    @SerializedName("result") val result: R
+    @SerializedName("results") val results: R
 )

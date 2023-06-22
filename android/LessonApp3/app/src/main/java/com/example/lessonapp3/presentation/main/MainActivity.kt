@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), MainObject.View {
 
     override fun showWelcomText(userExist: Boolean, userName: String) {
         return if (userExist) {
-            binding.tvWelcomeText.text = getString(R.string.you_are_welcome) + userName
+            binding.tvWelcomeText.text = getString(R.string.you_are_welcome )+ userName
         } else {
             binding.tvWelcomeText.text = getString(R.string.we_cant_find_you)
         }

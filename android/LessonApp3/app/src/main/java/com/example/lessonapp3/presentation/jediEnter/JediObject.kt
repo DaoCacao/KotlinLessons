@@ -1,13 +1,21 @@
 package com.example.lessonapp3.presentation.jediEnter
 
 object JediObject {
-    interface View{
+    interface View {
 
         fun navigateToEnterActivity()
-        fun navigateToMainActivity()
+        fun navigateToMainActivity(JediID: Int)
         fun showWrongName()
+        fun userAlreadyExist()
+        fun invalidPassword()
+        fun disableErrors()
     }
-    interface Presenter{
 
+    interface Presenter {
+        fun jediNameInput(name: String)
+        fun signInAsJedi()
+        fun jediPasswordInput(password: String)
+        fun dispose()
+        fun getAllJedi()
     }
 }

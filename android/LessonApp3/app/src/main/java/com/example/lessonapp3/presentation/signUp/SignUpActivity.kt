@@ -76,7 +76,7 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
     }
 
     override fun userAlreadyExist() {
-        TODO("Not yet implemented")
+        binding.ilLogin.error=getString(R.string.user_already_exist)
     }
 
     override fun navigationToEnterActivity() {

@@ -74,14 +74,12 @@ class UserService {
     fun signIn(login: String, password: String): Single<User> {
         return Single.create {
 
-            var loginCheck = false
+            var loginCheck=false
 
             for (user in users.keys) {
-                if (user.login == login) {
-                    loginCheck = true
-                }
-                if (loginCheck || user.password != password) {
-                    it.onError(SignInException.UserNotFound)
+                loginCheck = user.login == login
+                if (loginCheck&&user.password != password) {
+                    it.onError(SignInException.InvalidPassword)
                     return@create
                 }
             }
