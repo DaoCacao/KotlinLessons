@@ -18,12 +18,27 @@
         android:layout_marginTop="240dp"
         android:hint="@string/jedi_name"
         >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etjediName"
+        <AutoCompleteTextView
+            android:id="@+id/actvjediName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:paddingHorizontal="16dp"
+            android:layout_height="48dp"
+             />
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/nameInput"
+        app:layout_constraintTop_toTopOf="@id/nameInput"
+        app:layout_constraintBottom_toBottomOf="@id/nameInput"
+        android:paddingHorizontal="8dp"
+        android:indeterminateDrawable="@drawable/progress_bar"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInput"
         android:layout_width="160dp"

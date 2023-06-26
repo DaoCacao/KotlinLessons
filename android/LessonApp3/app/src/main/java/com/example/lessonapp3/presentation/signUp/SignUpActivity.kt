@@ -1,5 +1,6 @@
 package com.example.lessonapp3.presentation.signUp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,7 +9,9 @@ import com.example.lessonapp3.R
 import com.example.lessonapp3.UserService
 import com.example.lessonapp3.databinding.ActivitySignUpBinding
 import com.example.lessonapp3.presentation.enter.EnterActivity
+import com.example.lessonapp3.presentation.jediEnter.JediActivity
 import com.example.lessonapp3.presentation.main.MainActivity
+import com.example.lessonapp3.presentation.signIn.SignInActivity
 
 
 class SignUpActivity : AppCompatActivity(), SignUpObject.View {
@@ -80,21 +83,30 @@ class SignUpActivity : AppCompatActivity(), SignUpObject.View {
     }
 
     override fun navigationToEnterActivity() {
-        val intent = Intent(this@SignUpActivity, EnterActivity::class.java)
+        val intent = JediActivity.Companion.intentToEnterActivity(this)
         startActivity(intent)
 
     }
 
     override fun navigationToMainActivity(id: Int) {
-        val intent = Intent(this@SignUpActivity, MainActivity::class.java).apply {
-            putExtra(ID, id)
-        }
+        val intent = JediActivity.Companion.intentToMainActivity(this, id)
         startActivity(intent)
     }
 
 
     companion object SignUpCompanion {
         private const val ID = "id"
+
+        fun intentToEnterActivity(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
+
+        fun intentToMainActivity(context: Context, id: Int): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                putExtra(SignInActivity.ID, id)
+            }
+        }
+
     }
 }
 

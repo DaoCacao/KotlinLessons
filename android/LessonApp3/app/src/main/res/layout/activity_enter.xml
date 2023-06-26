@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
+
     tools:context=".presentation.enter.EnterActivity">
-=======
-    tools:context=".EnterActivity">
->>>>>>> origin/HomeworkApp3
+
 
     <TextView
         android:id="@+id/tvWelcome"
@@ -19,13 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="28sp"
-<<<<<<< HEAD
         android:paddingVertical="16dp"
         android:layout_marginTop="240dp"
-=======
-        android:paddingVertical="15dp"
-        android:layout_marginTop="300dp"
->>>>>>> origin/HomeworkApp3
         android:textColor="@color/black"
         />
     <Button
@@ -36,11 +29,7 @@
         app:layout_constraintStart_toStartOf="@id/tvWelcome"
         app:layout_constraintEnd_toEndOf="@id/tvWelcome"
         android:text="@string/sign_in"
-<<<<<<< HEAD
         android:paddingVertical="8dp"
-=======
-        android:paddingVertical="10dp"
->>>>>>> origin/HomeworkApp3
         />
     <Button
         android:id="@+id/btnSignUp"
@@ -50,7 +39,6 @@
         app:layout_constraintStart_toStartOf="@id/btnSignIn"
         app:layout_constraintEnd_toEndOf="@id/btnSignIn"
         android:text="@string/sign_up"
-<<<<<<< HEAD
         android:paddingVertical="8dp"
         />
     <Button
@@ -63,10 +51,5 @@
         android:text="@string/i_m_jedi"
         android:paddingVertical="8dp"
         />
-
-=======
-        android:paddingVertical="10dp"
-        />
->>>>>>> origin/HomeworkApp3
 
 </androidx.constraintlayout.widget.ConstraintLayout>

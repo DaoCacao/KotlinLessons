@@ -2,7 +2,6 @@ package com.example.lessonapp3.presentation.jediEnter
 
 import com.example.lessonapp3.SignUpException
 import com.example.lessonapp3.UserService
-import com.example.lessonapp3.data.model.JediRaw
 import com.example.lessonapp3.data.remote.JediGetter
 import com.example.lessonapp3.data.remote.JediRemoteStorage
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -22,13 +21,23 @@ class JediPresenter(
 
     var jediName = ""
     var jediPassword = ""
+    var jediNamesList = mutableListOf<String>()
 
     override fun getAllJedi() {
-        jediGetter.getJedi()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({it.forEach { println(it.name) }},{})
 
+        disposableGetAllJedi = jediGetter.getJedi()
+            .subscribeOn(Schedulers.io())
+            .doOnSubscribe {
+                view.doBeforeDataIsFetched()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doAfterSuccess {
+                view.showList(jediNamesList)
+                view.doAfterDataIsFetched()
+            }
+            .subscribe({
+                it.forEach { jediNamesList.add(it.name) }
+            }, {})
     }
 
     override fun jediNameInput(name: String) {
@@ -41,11 +50,25 @@ class JediPresenter(
 
     override fun signInAsJedi() {
 
+        disposableSignInAsJedi = userService.signUp(jediName, jediPassword, jediName)
+            .subscribe({ user ->
+                view.navigateToMainActivity(user.id)
+            },
+                {
+                    when (it) {
+                        is SignUpException.InvalidPassword -> view.invalidPassword()
+                        is SignUpException.UserAlreadyExists -> view.userAlreadyExist()
+                        is SignUpException.InvalidName -> view.showWrongName()
+                        is SignUpException.InvalidLogin -> view.showWrongName()
+                    }
+                })
     }
 
-
-    override fun dispose() {
+    override fun disposeGetAllJedi() {
         disposableGetAllJedi.dispose()
     }
 
+    override fun disposeSignInAsJedi() {
+        disposableSignInAsJedi.dispose()
+    }
 }

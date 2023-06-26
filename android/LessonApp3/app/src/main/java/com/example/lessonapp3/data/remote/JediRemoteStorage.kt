@@ -13,20 +13,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class JediRemoteStorage {
 
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://swapi.dev/api/")
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                })
-                .build()
-        )
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    private val retrofit: Retrofit = buildRetrofit()
     private val service: JediService = retrofit.create(JediService::class.java)
 
     fun getJedi(page: Int) = service.getJedi(page)
 
+    private fun buildRetrofit(): Retrofit{
+       return Retrofit.Builder()
+            .baseUrl("https://swapi.dev/api/")
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .build()
+            )
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

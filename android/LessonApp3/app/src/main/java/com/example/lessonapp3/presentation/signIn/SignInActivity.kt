@@ -1,8 +1,10 @@
 package com.example.lessonapp3.presentation.signIn
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.widget.doAfterTextChanged
 import com.example.lessonapp3.R
 import com.example.lessonapp3.presentation.enter.EnterActivity
@@ -54,18 +56,28 @@ class SignInActivity : AppCompatActivity(), SignInObject.View {
     }
 
     override fun navigationToEnterActivity() {
-        val intent = Intent(this@SignInActivity, EnterActivity::class.java)
+        val intent = Companion.intentToEnterActivity(this)
         startActivity(intent)
     }
 
     override fun navigationToMainActivity(userId: Int) {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra(ID, userId)
-        }
+        val intent = Companion.intentToMainActivity(this, userId)
         startActivity(intent)
     }
 
     companion object {
-        val ID = "id"
+        const val ID = "id"
+
+        fun intentToEnterActivity(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
+
+        fun intentToMainActivity(context: Context, id: Int): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                putExtra(ID, id)
+            }
+        }
+
+
     }
 }

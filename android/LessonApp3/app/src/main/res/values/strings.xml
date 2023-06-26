@@ -10,7 +10,7 @@
     <string name="you_re_entered">You\'re entered</string>
     <string name="sign_out">Sign out</string>
     <string name="we_cant_find_you">We can\'t find you, maybe you don\'t exist</string>
-    <string name="you_are_welcome">\You are welcome,\  </string>
+    <string name="you_are_welcome">\You are welcome, %1$s\  </string>
     <string name="user_did_not_found">User didn\'t found</string>
     <string name="invalid_password">Invalid password</string>
     <string name="invalid_name">Invalid name. Enter at least 3 characters</string>
@@ -23,4 +23,5 @@
     <string name="i_m_jedi">I\'m jedi</string>
     <string name="jedi_password">jedi password</string>
     <string name="user_already_exist">User already exist</string>
+    <string name="jedi_enter_toast_wait_until_fetching_data">Please wait until we are fetching data</string>
 </resources>
