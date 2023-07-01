@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StorageApp</string>
+    <string name="oops_nsomething_gone_wrong">Oops!\nSomething gone wrong!</string>
 </resources>
