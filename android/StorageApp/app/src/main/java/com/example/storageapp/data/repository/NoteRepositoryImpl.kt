@@ -15,18 +15,18 @@ class NoteRepositoryImpl(
     }
 
     override fun getNote(noteId: String): Observable<NoteModel> {
-        TODO("Not yet implemented")
+        return firestoreRemoteStorage.getNote(noteId)
     }
 
-    override fun addNote(title: String, content: String): Completable {
-        TODO("Not yet implemented")
+    override fun addNote(): Single<NoteModel> {
+        return firestoreRemoteStorage.addNote()
     }
 
     override fun updateNote(noteId: String, title: String, content: String): Completable {
-        TODO("Not yet implemented")
+        return firestoreRemoteStorage.updateNote(noteId, title, content)
     }
 
     override fun deleteNote(noteId: String): Completable {
-        TODO("Not yet implemented")
+        return firestoreRemoteStorage.deleteNote(noteId)
     }
 }

@@ -2,10 +2,8 @@ package com.example.storageapp.data.storage.firestore
 
 import com.example.storageapp.data.mapper.NoteMapper
 import com.example.storageapp.domain.model.NoteModel
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
@@ -16,23 +14,62 @@ class FirestoreRemoteStorage(
 
     fun getNotes(): Observable<List<NoteModel>> {
         return Observable.create { emitter ->
-            firestore.collection("notes")
+            firestore.collection(COLLECTION)
                 .addSnapshotListener { value, error ->
-                    if (value != null) emitter.onNext(value) // [{"title" to "Hello", "content" to "World },]
+                    if (value != null) emitter.onNext(value)
                     else if (error != null) emitter.onError(error)
                 }
-//                .get()
-//                .addOnSuccessListener { notes ->  }
-//                .addOnFailureListener { emitter.onError(it) }
-        }.map { notes -> notes.map { note -> mapper.mapModel(note.id, note.data) } }
+        }.map { notes -> notes.map { note -> mapper.mapCollection(note.id, note.data) } }
+    }
+
+    fun updateNote(noteId: String, title: String, content: String): Completable {
+        return Completable
+            .create {
+                firestore.collection(COLLECTION).document(noteId)
+                    .update(TITLE, title, CONTENT, content)
+            }
+    }
+
+    fun getNote(noteId: String): Observable<NoteModel> {
+        return Observable.create { emitter ->
+            firestore.collection(COLLECTION).document(noteId)
+                .addSnapshotListener { value, error ->
+                    if (value != null && value.data != null) {
+                        emitter.onNext(mapper.mapCollection(value.id, value.data!!))
+                    } else {
+                        emitter.onError(FirestoreRemoteStorageExceptions.GetNoteException)
+                    }
+                }
+        }
+    }
+
+    fun addNote(): Single<NoteModel> {
+        return Single.create<NoteModel> { emitter ->
+            firestore.collection(COLLECTION)
+                .add(mapOf(TITLE to NEW_TITLE, CONTENT to NEW_CONTENT))
+        }
+    }
+
+
+    fun deleteNote(noteId: String): Completable {
+        return Completable.create {
+            firestore.collection(COLLECTION).document(noteId)
+                .delete()
+        }
+    }
+
+    companion object {
+        const val COLLECTION = "notes"
+        const val TITLE = "title"
+        const val CONTENT = "content"
+        const val NEW_TITLE = "New title"
+        const val NEW_CONTENT = ""
+    }
+
+    sealed class FirestoreRemoteStorageExceptions() : Exception() {
+        object GetNoteException : FirestoreRemoteStorageExceptions()
+
     }
 }
 
-//{
-//    "notes": [
-//    "ashdjkashdjkahAKSJFHKAS": {
-//    "title" to "Hello",
-//    "content" to "World",
-//    }
-//    ],
-//}
+

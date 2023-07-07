@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">StorageApp</string>
     <string name="oops_nsomething_gone_wrong">Oops!\nSomething gone wrong!</string>
+    <string name="title">Title</string>
+    <string name="description">description</string>
+    <string name="somth_went_wrong">Oops, something went wrong</string>
+    <string name="menu_sort_a_to_z">sort A…Z</string>
+    <string name="menu_sort_z_to_a">sort Z…A</string>
+    <string name="menu_delete">delete</string>
+    <string name="menu_find">find</string>
+    <string name="search">search</string>
 </resources>
