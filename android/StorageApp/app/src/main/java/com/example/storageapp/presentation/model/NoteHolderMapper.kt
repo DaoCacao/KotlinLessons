@@ -13,10 +13,7 @@ class NoteHolderMapper {
         isChecked = false
     )
 
-    fun mapNoteListToNoteHolderList(noteList: List<NoteModel>) = List(
-        noteList.size
-    ) {
-        mapNoteToNoteHolder(noteList[it].id, noteList[it].title)
-    }
-
+    fun mapNoteListToNoteHolderList(noteList: List<NoteModel>) =
+        noteList.map { mapNoteToNoteHolder(it.id, it.title) }
 }
+
