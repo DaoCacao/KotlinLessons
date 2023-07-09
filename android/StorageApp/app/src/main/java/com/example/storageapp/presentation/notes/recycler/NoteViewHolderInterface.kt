@@ -1,13 +1,13 @@
 package com.example.storageapp.presentation.notes.recycler
 
-import com.example.storageapp.domain.model.NoteModel
+import com.example.storageapp.presentation.model.NoteHolderModel
 
 interface NoteViewHolderInterface {
 
-        fun bind(note: NoteModel)
+        fun bind(note: NoteHolderModel)
         fun showCheckBox()
         fun hideCheckBox()
-        fun check(): Boolean
-        fun uncheckAll()
+        fun check(check: Boolean)
+        fun getNoteId(note: NoteHolderModel):String
 
 }

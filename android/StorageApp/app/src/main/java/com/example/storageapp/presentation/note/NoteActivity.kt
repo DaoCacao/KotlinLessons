@@ -27,6 +27,7 @@ class NoteActivity : AppCompatActivity(), NoteObject.View {
 
         binding.ibtnGoBack.setOnClickListener {
             navigateToNotesActivity()
+            presenter.updateNote(binding.Title.text.toString(), binding.Content.text.toString())
         }
 
         binding.fab.setOnClickListener {

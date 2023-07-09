@@ -9,13 +9,15 @@ import com.example.storageapp.presentation.note.NoteObject
 import com.example.storageapp.presentation.note.NotePresenter
 import com.example.storageapp.presentation.notes.NotesObject
 import com.example.storageapp.presentation.notes.NotesPresenter
+import com.example.storageapp.presentation.model.NoteHolderMapper
 import com.google.firebase.firestore.FirebaseFirestore
 
 fun provideNotesPresenter(view: NotesObject.View) = NotesPresenter(
     view,
     provideGetNotesUseCase(),
     provideAddNoteUseCase(),
-    provideDeleteNoteUseCase()
+    provideDeleteNoteUseCase(),
+    NoteHolderMapper()
 )
 
 fun provideDeleteNoteUseCase() = DeleteNoteUseCase(provideNotesRepository())

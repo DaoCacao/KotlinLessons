@@ -43,18 +43,24 @@ class FirestoreRemoteStorage(
         }
     }
 
-    fun addNote(): Single<NoteModel> {
-        return Single.create<NoteModel> { emitter ->
+    fun addNote(title: String, content: String): Single<String> {
+        return Single.create { emitter ->
             firestore.collection(COLLECTION)
-                .add(mapOf(TITLE to NEW_TITLE, CONTENT to NEW_CONTENT))
+                .add(mapOf(TITLE to title, CONTENT to content))
+                .addOnSuccessListener { noteReference ->
+                    emitter.onSuccess(noteReference.id)
+                }
+                .addOnFailureListener { emitter.onError(FirestoreRemoteStorageExceptions.AddNoteException) }
+
         }
     }
 
 
     fun deleteNote(noteId: String): Completable {
-        return Completable.create {
+        return Completable.create { emitter ->
             firestore.collection(COLLECTION).document(noteId)
                 .delete()
+            emitter.onComplete()
         }
     }
 
@@ -68,6 +74,7 @@ class FirestoreRemoteStorage(
 
     sealed class FirestoreRemoteStorageExceptions() : Exception() {
         object GetNoteException : FirestoreRemoteStorageExceptions()
+        object AddNoteException : FirestoreRemoteStorageExceptions()
 
     }
 }

@@ -1,32 +1,34 @@
 package com.example.storageapp.presentation.notes
 
-import com.example.storageapp.domain.model.NoteModel
+import com.example.storageapp.presentation.model.NoteHolderModel
 
 object NotesObject {
     interface View {
         fun showLoading()
-        fun showNotes(notes: List<NoteModel>)
+        fun showNotes(notes: List<NoteHolderModel>)
         fun showError()
         fun navigateToNoteActivity(noteId: String)
-        fun onNoteClick(noteModel: NoteModel)
+        fun onNoteClick(note: NoteHolderModel)
         fun setDeleteState()
         fun setBasicState()
-        fun setSortedState(filtration: (item: List<NoteModel>) -> List<NoteModel>)
-        fun setBasicStateAfterSearch()
         fun setSearchState()
         fun onDeleteFubClick()
         fun showFailToast()
-        fun onLongNoteClick(note: NoteModel)
+        fun onLongNoteClick(note: NoteHolderModel)
         fun onGoBackClick()
+        fun onCheckBoxClick(note: NoteHolderModel)
 
     }
 
     interface Presenter {
         fun loadData()
-        fun deleteNote(chosenId: Set<String>)
-        fun addNote()
+        fun deleteNote()
+        fun addNote(title: String, Content: String)
         fun dispose()
         fun filterNotes(filter:String)
-        fun sortNotes(filtration: (item: List<NoteModel>) -> List<NoteModel>)
+        fun sortNotes(filtration: String)
+        fun addToDeleteSet(noteId: String)
+        fun deleteFromDeleteSet(noteId: String)
+        fun clearDeleteSet()
     }
 }

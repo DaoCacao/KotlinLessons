@@ -18,8 +18,8 @@ class NoteRepositoryImpl(
         return firestoreRemoteStorage.getNote(noteId)
     }
 
-    override fun addNote(): Single<NoteModel> {
-        return firestoreRemoteStorage.addNote()
+    override fun addNote(title: String, content: String): Single<String> {
+        return firestoreRemoteStorage.addNote(title, content)
     }
 
     override fun updateNote(noteId: String, title: String, content: String): Completable {

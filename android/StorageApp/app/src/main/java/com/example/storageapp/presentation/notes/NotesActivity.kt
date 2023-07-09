@@ -12,17 +12,18 @@ import com.example.storageapp.R
 import com.example.storageapp.databinding.ActivityNotesBinding
 
 import com.example.storageapp.di.provideNotesPresenter
-import com.example.storageapp.domain.model.NoteModel
+import com.example.storageapp.presentation.model.NoteHolderModel
 import com.example.storageapp.presentation.note.NoteActivity
 
 
 class NotesActivity : AppCompatActivity(), NotesObject.View {
-    private lateinit var filters: Filters
+
     private val binding by lazy { ActivityNotesBinding.inflate(layoutInflater) }
     private val adapter by lazy {
         NotesAdapter(
             onNoteClick = ::onNoteClick,
-            onLongNoteClick = ::onLongNoteClick
+            onLongNoteClick = ::onLongNoteClick,
+            onCheckBoxClick = ::onCheckBoxClick
         )
     }
     private val presenter: NotesObject.Presenter by lazy { provideNotesPresenter(this) }
@@ -30,7 +31,7 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        filters = Filters()
+
         binding.recyclerNotes.adapter = adapter
         presenter.loadData()
 
@@ -47,11 +48,11 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
                     true
                 }
                 binding.toolBar.menu.findItem(R.id.menu_sort_alphabet_a_to_z) -> {
-                    presenter.sortNotes { filters.filterByAlphabetAtoZ(adapter.currentList) }
+                    presenter.sortNotes(DECREASE)
                     true
                 }
                 binding.toolBar.menu.findItem(R.id.menu_sort_alphabet_z_to_a) -> {
-                    presenter.sortNotes { filters.filterByAlphabetZtoA(adapter.currentList) }
+                    presenter.sortNotes(INCREASE)
                     true
                 }
                 else -> {
@@ -69,7 +70,7 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         }
 
         binding.fab.setOnClickListener {
-            presenter.addNote()
+            presenter.addNote(TITLE, CONTENT)
         }
 
         val searchField = binding.etSearch
@@ -99,6 +100,8 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
 
     companion object {
 
+        const val TITLE = "New title"
+        const val CONTENT = "new content"
         const val INCREASE = "increase"
         const val DECREASE = "decrease"
 
@@ -114,12 +117,23 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         Toast.makeText(this, getString(R.string.somth_went_wrong), Toast.LENGTH_LONG).show()
     }
 
-    override fun onNoteClick(noteModel: NoteModel) {
-        navigateToNoteActivity(noteModel.id)
+    override fun onNoteClick(note: NoteHolderModel) {
+        navigateToNoteActivity(note.id)
     }
 
-    override fun onLongNoteClick(note: NoteModel) {
+    override fun onLongNoteClick(note: NoteHolderModel) {
+
         setDeleteState()
+        onCheckBoxClick(note)
+    }
+
+    override fun onCheckBoxClick(note: NoteHolderModel) {
+
+        if (note.isChecked) {
+            presenter.addToDeleteSet(note.id)
+        } else {
+            presenter.deleteFromDeleteSet(note.id)
+        }
     }
 
     override fun onGoBackClick() {
@@ -140,16 +154,13 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         binding.ibtnGoBack.isVisible = true
     }
 
-    override fun setSortedState(filtration: (item: List<NoteModel>) -> List<NoteModel>) {
-
-    }
-
     override fun setSearchState() {
         binding.etSearch.isVisible = true
         binding.ibtnGoBack.isVisible = true
     }
 
     override fun setBasicState() {
+        presenter.clearDeleteSet()
         adapter.setDeleteState(false)
         binding.fabDelete.isVisible = false
         binding.fab.isVisible = true
@@ -158,15 +169,9 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         presenter.loadData()
     }
 
-    override fun setBasicStateAfterSearch() {
-        setBasicState()
-        presenter.loadData()
-    }
-
     override fun onDeleteFubClick() {
-        adapter.notifyDataSetChanged()
-        presenter.deleteNote(adapter.getCheckedPositions())
-        adapter.clearCheckList()
+        presenter.deleteNote()
+        setBasicState()
     }
 
     override fun showLoading() {
@@ -177,7 +182,7 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
     }
 
     override fun showNotes(
-        notes: List<NoteModel>
+        notes: List<NoteHolderModel>
     ) {
         // changeState(State.Loaded)
         binding.progressLoading.isVisible = false

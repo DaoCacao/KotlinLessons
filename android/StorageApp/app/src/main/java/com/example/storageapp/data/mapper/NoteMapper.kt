@@ -8,12 +8,4 @@ class NoteMapper {
         title = data["title"] as String,
         content = data["content"] as String,
     )
-
-    fun mapDocument(id: String, title: String, content: String) = NoteModel(
-        id = id,
-        title = title,
-        content = content
-    )
-
-
 }
