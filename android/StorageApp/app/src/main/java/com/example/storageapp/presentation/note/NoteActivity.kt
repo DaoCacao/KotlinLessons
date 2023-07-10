@@ -14,7 +14,7 @@ import com.example.storageapp.presentation.notes.NotesActivity
 class NoteActivity : AppCompatActivity(), NoteObject.View {
 
     private val binding by lazy { ActivityNoteBinding.inflate(layoutInflater) }
-    private val presenter: NoteObject.Presenter by lazy { provideNotePresenter(this) }
+    private val presenter: NoteObject.Presenter by lazy { provideNotePresenter(this, this) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

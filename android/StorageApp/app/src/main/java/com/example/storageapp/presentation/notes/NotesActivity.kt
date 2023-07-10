@@ -26,7 +26,7 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
             onCheckBoxClick = ::onCheckBoxClick
         )
     }
-    private val presenter: NotesObject.Presenter by lazy { provideNotesPresenter(this) }
+    private val presenter: NotesObject.Presenter by lazy { provideNotesPresenter(this, this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
