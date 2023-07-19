@@ -24,9 +24,13 @@ class FirestoreRemoteStorage(
 
     fun updateNote(noteId: String, title: String, content: String): Completable {
         return Completable
-            .create {
+            .create { emitter ->
                 firestore.collection(COLLECTION).document(noteId)
                     .update(TITLE, title, CONTENT, content)
+                    .addOnSuccessListener {
+                        emitter.onComplete()
+                    }
+                    .addOnFailureListener { emitter.onError(FirestoreRemoteStorageExceptions.UpdateNoteException) }
             }
     }
 
@@ -60,7 +64,8 @@ class FirestoreRemoteStorage(
         return Completable.create { emitter ->
             firestore.collection(COLLECTION).document(noteId)
                 .delete()
-            emitter.onComplete()
+                .addOnSuccessListener { emitter.onComplete() }
+                .addOnFailureListener { emitter.onError(FirestoreRemoteStorageExceptions.DeleteNoteException) }
         }
     }
 
@@ -68,13 +73,13 @@ class FirestoreRemoteStorage(
         const val COLLECTION = "notes"
         const val TITLE = "title"
         const val CONTENT = "content"
-        const val NEW_TITLE = "New title"
-        const val NEW_CONTENT = ""
     }
 
     sealed class FirestoreRemoteStorageExceptions() : Exception() {
         object GetNoteException : FirestoreRemoteStorageExceptions()
         object AddNoteException : FirestoreRemoteStorageExceptions()
+        object DeleteNoteException : FirestoreRemoteStorageExceptions()
+        object UpdateNoteException : FirestoreRemoteStorageExceptions()
 
     }
 }

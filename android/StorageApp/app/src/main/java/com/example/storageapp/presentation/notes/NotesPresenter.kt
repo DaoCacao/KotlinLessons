@@ -1,12 +1,14 @@
 package com.example.storageapp.presentation.notes
 
+import android.database.Observable
 import com.example.storageapp.domain.use_case.AddNoteUseCase
 import com.example.storageapp.domain.use_case.DeleteNoteUseCase
 import com.example.storageapp.domain.use_case.GetNotesUseCase
-import com.example.storageapp.presentation.model.NoteHolderMapper
+import com.example.storageapp.presentation.model.NoteDisplayModel
+import com.example.storageapp.presentation.model.NoteHolderDisplay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class NotesPresenter(
@@ -14,12 +16,9 @@ class NotesPresenter(
     private val getNotesUseCase: GetNotesUseCase,
     private val addNoteUseCase: AddNoteUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase,
-    private val mapper: NoteHolderMapper
+    private val mapper: NoteHolderDisplay
 ) : NotesObject.Presenter {
 
-    private lateinit var loadDataDisposable: Disposable
-    private lateinit var addNoteDisposable: Disposable
-    private lateinit var deleteNoteDisposable: Disposable
     private val composite = CompositeDisposable()
     private val filtersForSort = FiltersForSort()
     private val deleteSet = mutableSetOf<String>()
@@ -32,7 +31,7 @@ class NotesPresenter(
             .doOnSubscribe { view.showLoading() }
             .subscribe(
                 { notesList ->
-                    view.showNotes(mapper.mapNoteListToNoteHolderList(notesList))
+                    view.showNotes(mapper.mapNoteListToNoteDisplayList(notesList, false))
                 },
                 {
                     it.printStackTrace()
@@ -43,23 +42,31 @@ class NotesPresenter(
     }
 
     override fun deleteNote() {
-        for (i in deleteSet) {
-            val disposable = deleteNoteUseCase.invoke(i)
-                .subscribe()
-            composite.add(disposable)
-        }
+        val disposable = io.reactivex.rxjava3.core.Observable.fromIterable(deleteSet)
+            .flatMap {
+                deleteNoteUseCase.invoke(it).toObservable()
+            }
+            .toList()
+            .subscribe({
+            },
+                {
+                    view.showError()
+                })
+        composite.add(disposable)
     }
+
+
 
     override fun addToDeleteSet(noteId: String) {
         deleteSet.add(noteId)
     }
 
-    override fun deleteFromDeleteSet(noteId: String) {
+    override fun removeFromDeleteSet(noteId: String) {
         deleteSet.remove(noteId)
     }
 
     override fun clearDeleteSet() {
-        deleteSet.removeAll { true }
+        deleteSet.clear()
     }
 
     override fun addNote(title: String, content: String) {
@@ -80,7 +87,7 @@ class NotesPresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { view.showLoading() }
             .map { noteList ->
-                val holderList = mapper.mapNoteListToNoteHolderList(noteList)
+                val holderList = mapper.mapNoteListToNoteDisplayList(noteList, false)
                 when (filtration) {
                     DECREASE -> {
                         filtersForSort.filterByAlphabetAtoZ(holderList)
@@ -113,7 +120,7 @@ class NotesPresenter(
                 notesList.filter { it.title.contains(filter, true) }
             }
             .subscribe({ notesList ->
-                val holderList = mapper.mapNoteListToNoteHolderList(notesList)
+                val holderList = mapper.mapNoteListToNoteDisplayList(notesList, false)
                 view.showNotes(holderList)
             }, {
                 it.printStackTrace()
@@ -122,9 +129,37 @@ class NotesPresenter(
         composite.add(disposable)
     }
 
+    override fun onNoteClick(note: NoteDisplayModel) {
+        view.navigateToNoteActivity(note.id)
+    }
+
+    override fun onLongNoteClick(note: NoteDisplayModel) {
+        view.setDeleteState()
+        onCheckBoxClick(note)
+    }
+
+    override fun onCheckBoxClick(note: NoteDisplayModel) {
+
+        if (note.isChecked) {
+            addToDeleteSet(note.id)
+        } else {
+            removeFromDeleteSet(note.id)
+        }
+    }
+
+    override fun onGoBackClick() {
+        view.setBasicState()
+    }
+
     override fun dispose() {
         composite.dispose()
     }
+
+    override fun onDeleteFubClick() {
+        deleteNote()
+        view.setBasicState()
+    }
+
 
     companion object {
 

@@ -7,22 +7,21 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.storageapp.R
 import com.example.storageapp.databinding.ItemNoteBinding
-import com.example.storageapp.presentation.model.NoteHolderModel
+import com.example.storageapp.presentation.model.NoteDisplayModel
 import com.example.storageapp.presentation.notes.NotesAdapter
 
 class NoteViewHolder(
     parent: ViewGroup,
-    private val onClick: (NoteHolderModel) -> Unit,
-    private val onCheckBoxClick: (NoteHolderModel) -> Unit,
-    private val onLongNoteClick: (NoteHolderModel) -> Unit,
-    private val adapter: NotesAdapter
+    private val onClick: (NoteDisplayModel) -> Unit,
+    private val onCheckBoxClick: (NoteDisplayModel) -> Unit,
+    private val onLongNoteClick: (NoteDisplayModel) -> Unit,
 
 ) : ViewHolder(parent.inflate(R.layout.item_note)),
     NoteViewHolderInterface {
 
     private val binding = ItemNoteBinding.bind(itemView)
 
-    override fun bind(note: NoteHolderModel) {
+    override fun bind(note: NoteDisplayModel) {
         binding.textTitle.text = note.title
 
         binding.root.setOnClickListener { onClick(note) }
@@ -37,7 +36,7 @@ class NoteViewHolder(
     }
 
 
-    override fun getNoteId(note: NoteHolderModel): String {
+    override fun getNoteId(note: NoteDisplayModel): String {
         return note.id
     }
 

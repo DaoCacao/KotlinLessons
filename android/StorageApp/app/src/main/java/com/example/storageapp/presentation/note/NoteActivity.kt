@@ -26,18 +26,14 @@ class NoteActivity : AppCompatActivity(), NoteObject.View {
 
 
         binding.ibtnGoBack.setOnClickListener {
+            presenter.updateNote(binding.title.text.toString(), binding.content.text.toString())
             navigateToNotesActivity()
-            presenter.updateNote(binding.Title.text.toString(), binding.Content.text.toString())
+            //finish()
         }
 
         binding.fab.setOnClickListener {
-            presenter.updateNote(binding.Title.text.toString(), binding.Content.text.toString() )
+            presenter.updateNote(binding.title.text.toString(), binding.content.text.toString() )
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.disposeGetNote()
     }
 
     companion object {
@@ -48,28 +44,46 @@ class NoteActivity : AppCompatActivity(), NoteObject.View {
         const val NOTEID = "note id"
     }
 
+    override fun onDestroy() {
+        presenter.dispose()
+        super.onDestroy()
+    }
+
     override fun showNote() {
         binding.progressBar.isVisible = false
-        binding.Title.isVisible = true
-        binding.Content.isVisible = true
+        binding.title.isVisible = true
+        binding.content.isVisible = true
     }
 
     override fun showError() {
         Toast.makeText(this, getString(R.string.somth_went_wrong), Toast.LENGTH_LONG).show()
         binding.progressBar.isVisible = false
     }
+    override fun showUpdateError() {
+        Toast.makeText(this, getString(R.string.UpdateError), Toast.LENGTH_LONG).show()
+        binding.progressBar.isVisible = false
+    }
+    override fun showGetError() {
+        Toast.makeText(this, getString(R.string.GetNoteError), Toast.LENGTH_LONG).show()
+        binding.progressBar.isVisible = false
+    }
+
+    override fun showUpdateSucces() {
+        Toast.makeText(this, getString(R.string.UpdateSucces), Toast.LENGTH_SHORT).show()
+        binding.progressBar.isVisible = false
+    }
 
     override fun initializeNote(title: String, content: String) {
         showNote()
-        binding.Title.setText(title)
-        binding.Content.setText(content)
+        binding.title.setText(title)
+        binding.content.setText(content)
     }
 
 
     override fun showLoading() {
         binding.progressBar.isVisible = true
-        binding.Title.isVisible = false
-        binding.Content.isVisible = false
+        binding.title.isVisible = false
+        binding.content.isVisible = false
     }
 
 

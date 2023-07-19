@@ -8,11 +8,12 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.example.storageapp.R
 import com.example.storageapp.databinding.ActivityNotesBinding
 
 import com.example.storageapp.di.provideNotesPresenter
-import com.example.storageapp.presentation.model.NoteHolderModel
+import com.example.storageapp.presentation.model.NoteDisplayModel
 import com.example.storageapp.presentation.note.NoteActivity
 
 
@@ -21,9 +22,9 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
     private val binding by lazy { ActivityNotesBinding.inflate(layoutInflater) }
     private val adapter by lazy {
         NotesAdapter(
-            onNoteClick = ::onNoteClick,
-            onLongNoteClick = ::onLongNoteClick,
-            onCheckBoxClick = ::onCheckBoxClick
+            onNoteClick = { presenter.onNoteClick(it) },
+            onLongNoteClick = { presenter.onLongNoteClick(it) },
+            onCheckBoxClick = { presenter.onCheckBoxClick(it) }
         )
     }
     private val presenter: NotesObject.Presenter by lazy { provideNotesPresenter(this, this) }
@@ -66,36 +67,14 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         }
 
         binding.fabDelete.setOnClickListener {
-            onDeleteFubClick()
+            presenter.onDeleteFubClick()
         }
 
         binding.fab.setOnClickListener {
             presenter.addNote(TITLE, CONTENT)
         }
 
-        val searchField = binding.etSearch
-        searchField.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                presenter.filterNotes(searchField.text.toString())
-            }
-        })
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.dispose()
+        binding.etSearch.doAfterTextChanged { presenter.filterNotes(it.toString()) }
     }
 
     companion object {
@@ -112,32 +91,14 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         const val NOTEID = "note id"
     }
 
+    override fun onDestroy() {
+        presenter.dispose()
+        super.onDestroy()
+
+    }
 
     override fun showFailToast() {
         Toast.makeText(this, getString(R.string.somth_went_wrong), Toast.LENGTH_LONG).show()
-    }
-
-    override fun onNoteClick(note: NoteHolderModel) {
-        navigateToNoteActivity(note.id)
-    }
-
-    override fun onLongNoteClick(note: NoteHolderModel) {
-
-        setDeleteState()
-        onCheckBoxClick(note)
-    }
-
-    override fun onCheckBoxClick(note: NoteHolderModel) {
-
-        if (note.isChecked) {
-            presenter.addToDeleteSet(note.id)
-        } else {
-            presenter.deleteFromDeleteSet(note.id)
-        }
-    }
-
-    override fun onGoBackClick() {
-        setBasicState()
     }
 
     override fun navigateToNoteActivity(noteId: String) {
@@ -169,11 +130,6 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         presenter.loadData()
     }
 
-    override fun onDeleteFubClick() {
-        presenter.deleteNote()
-        setBasicState()
-    }
-
     override fun showLoading() {
         // changeState(State.Loading)
         binding.progressLoading.isVisible = true
@@ -182,7 +138,7 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
     }
 
     override fun showNotes(
-        notes: List<NoteHolderModel>
+        notes: List<NoteDisplayModel>
     ) {
         // changeState(State.Loaded)
         binding.progressLoading.isVisible = false

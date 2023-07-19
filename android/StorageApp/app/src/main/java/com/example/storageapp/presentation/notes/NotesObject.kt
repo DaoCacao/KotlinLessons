@@ -1,22 +1,18 @@
 package com.example.storageapp.presentation.notes
 
-import com.example.storageapp.presentation.model.NoteHolderModel
+import com.example.storageapp.presentation.model.NoteDisplayModel
 
 object NotesObject {
     interface View {
         fun showLoading()
-        fun showNotes(notes: List<NoteHolderModel>)
+        fun showNotes(notes: List<NoteDisplayModel>)
         fun showError()
         fun navigateToNoteActivity(noteId: String)
-        fun onNoteClick(note: NoteHolderModel)
+
         fun setDeleteState()
         fun setBasicState()
         fun setSearchState()
-        fun onDeleteFubClick()
         fun showFailToast()
-        fun onLongNoteClick(note: NoteHolderModel)
-        fun onGoBackClick()
-        fun onCheckBoxClick(note: NoteHolderModel)
 
     }
 
@@ -25,10 +21,15 @@ object NotesObject {
         fun deleteNote()
         fun addNote(title: String, Content: String)
         fun dispose()
-        fun filterNotes(filter:String)
+        fun filterNotes(filter: String)
         fun sortNotes(filtration: String)
         fun addToDeleteSet(noteId: String)
-        fun deleteFromDeleteSet(noteId: String)
+        fun removeFromDeleteSet(noteId: String)
         fun clearDeleteSet()
+        fun onLongNoteClick(note: NoteDisplayModel)
+        fun onGoBackClick()
+        fun onCheckBoxClick(note: NoteDisplayModel)
+        fun onNoteClick(note: NoteDisplayModel)
+        fun onDeleteFubClick()
     }
 }

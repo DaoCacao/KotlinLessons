@@ -41,7 +41,7 @@
     android:layout_margin="8dp"
     >
     <EditText
-        android:id="@+id/Title"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -67,7 +67,7 @@
         android:layout_margin="8dp"
         >
         <EditText
-            android:id="@+id/Content"
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"

@@ -3,6 +3,7 @@ package com.example.storageapp.presentation.note
 import com.example.storageapp.domain.use_case.GetNoteUseCase
 import com.example.storageapp.domain.use_case.UpdateNoteUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -12,34 +13,38 @@ class NotePresenter(
     val updateNoteUseCase: UpdateNoteUseCase
 ) :
     NoteObject.Presenter {
-    private lateinit var disposableGetNote: Disposable
-    private lateinit var disposableUpdateNote: Disposable
-    private lateinit var id: String
+    var compositeDisposable = CompositeDisposable()
+    private var id="0"
 
     override fun getNote(noteId: String) {
-        disposableGetNote = getNoteUseCase.invoke(noteId)
+        val disposable = getNoteUseCase.invoke(noteId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { view.showLoading() }
             .subscribe(
                 {
-                    id=it.id
+                    id = it.id
                     view.initializeNote(it.title, it.content)
                 },
                 {
                     it.printStackTrace()
-                    view.showError()
+                    view.showGetError()
                 },
             )
+        compositeDisposable.add(disposable)
     }
 
 
     override fun updateNote(title: String, content: String) {
-        disposableUpdateNote = updateNoteUseCase.invoke(id, title, content)
-            .subscribe({}, {})
+        val disposable = updateNoteUseCase.invoke(id, title, content)
+            .subscribe(
+                { view.showUpdateSucces()},
+                { view.showUpdateError()})
+
+        compositeDisposable.add(disposable)
     }
 
-    override fun disposeGetNote() {
-        disposableGetNote.isDisposed
+    override fun dispose() {
+        compositeDisposable.dispose()
     }
 }

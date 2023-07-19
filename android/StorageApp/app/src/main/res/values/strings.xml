@@ -9,4 +9,7 @@
     <string name="menu_delete">delete</string>
     <string name="menu_find">find</string>
     <string name="search">search</string>
+    <string name="UpdateError">Update did not succeed</string>
+    <string name="UpdateSucces">Update succeed</string>
+    <string name="GetNoteError">We can\'t find your note</string>
 </resources>

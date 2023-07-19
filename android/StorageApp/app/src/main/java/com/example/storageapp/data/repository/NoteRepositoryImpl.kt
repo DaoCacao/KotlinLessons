@@ -13,8 +13,8 @@ class NoteRepositoryImpl(
     private val roomLocalStorage: RoomLocalStorage,
 ) : NoteRepository {
     override fun getNotes(): Observable<List<NoteModel>> {
-        return roomLocalStorage.getNotes()
-//        return firestoreRemoteStorage.getNotes()
+     //   return roomLocalStorage.getNotes()
+      return firestoreRemoteStorage.getNotes()
     }
 
     override fun getNote(noteId: String): Observable<NoteModel> {

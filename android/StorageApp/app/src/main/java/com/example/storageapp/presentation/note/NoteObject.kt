@@ -9,6 +9,9 @@ object NoteObject {
         fun showLoading()
         fun showNote()
         fun showError()
+        fun showUpdateError()
+        fun showUpdateSucces()
+        fun showGetError()
 
     }
 
@@ -16,6 +19,6 @@ object NoteObject {
 
         fun getNote(noteId: String)
         fun updateNote(title: String, content: String)
-        fun disposeGetNote()
+        fun dispose()
     }
 }

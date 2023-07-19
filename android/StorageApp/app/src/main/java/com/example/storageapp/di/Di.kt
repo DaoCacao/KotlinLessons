@@ -12,7 +12,7 @@ import com.example.storageapp.domain.use_case.DeleteNoteUseCase
 import com.example.storageapp.domain.use_case.GetNoteUseCase
 import com.example.storageapp.domain.use_case.GetNotesUseCase
 import com.example.storageapp.domain.use_case.UpdateNoteUseCase
-import com.example.storageapp.presentation.model.NoteHolderMapper
+import com.example.storageapp.presentation.model.NoteHolderDisplay
 import com.example.storageapp.presentation.note.NoteObject
 import com.example.storageapp.presentation.note.NotePresenter
 import com.example.storageapp.presentation.notes.NotesObject
@@ -24,7 +24,7 @@ fun provideNotesPresenter(context: Context, view: NotesObject.View) = NotesPrese
     provideGetNotesUseCase(context),
     provideAddNoteUseCase(context),
     provideDeleteNoteUseCase(context),
-    NoteHolderMapper()
+    NoteHolderDisplay()
 )
 
 fun provideDeleteNoteUseCase(context: Context) = DeleteNoteUseCase(provideNotesRepository(context))
