@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Shape.Button" parent="">
+        <item name="shapeCornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+        <!--        <item name="cornerSize">50%</item>-->
+    </style>
+</resources>

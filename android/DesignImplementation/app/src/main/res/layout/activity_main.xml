@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.designimplementation.custom.UiButtonSimple
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Button" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="8dp" />
+
+    <com.example.designimplementation.custom.UiButtonFromXml
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="8dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccentPrimary"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textAppearance="@style/Typography.Button"
+        android:textColor="@color/colorSurfacePrimary"
+        app:shapeAppearance="@style/Shape.Button"
+        tools:text="Button" />
+</LinearLayout>
