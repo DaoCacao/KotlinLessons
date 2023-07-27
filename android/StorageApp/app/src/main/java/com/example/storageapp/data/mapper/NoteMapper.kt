@@ -10,9 +10,14 @@ class NoteMapper {
         content = data["content"] as String,
     )
 
-    fun mapEntry(entry: NoteEntity) = NoteModel(
-        id = entry.id,
-        title = entry.title ?: "",
-        content = entry.content ?: "",
+    fun mapEntityToModel(entity: NoteEntity) = NoteModel(
+        id = entity.id,
+        title = entity.title ?: "",
+        content = entity.content ?: "",
+    )
+    fun mapModelToEntity(model: NoteModel)=NoteEntity(
+        id=model.id,
+        title = model.title,
+        content = model.content
     )
 }

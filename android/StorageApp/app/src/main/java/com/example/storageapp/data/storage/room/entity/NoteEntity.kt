@@ -9,7 +9,6 @@ data class NoteEntity(
     @ColumnInfo(name = "id") @PrimaryKey val id: String,
     @ColumnInfo(name = "title") val title: String?,
     @ColumnInfo(name = "content") val content: String?,
-    @ColumnInfo(name = "content_2") val content2: String?,
 )
 
 // INSERT INTO notes (id, title, content, content_2) VALUES ('1', 'title', 'content', 'content2')

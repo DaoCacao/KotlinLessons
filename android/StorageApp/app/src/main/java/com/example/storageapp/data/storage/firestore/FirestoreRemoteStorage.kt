@@ -2,6 +2,7 @@ package com.example.storageapp.data.storage.firestore
 
 import com.example.storageapp.data.mapper.NoteMapper
 import com.example.storageapp.domain.model.NoteModel
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -47,6 +48,15 @@ class FirestoreRemoteStorage(
         }
     }
 
+    fun setNote(id: String, title: String, content: String): Completable {
+        return Completable.create { emitter ->
+            firestore.collection(COLLECTION).document(id)
+                .set(mapOf(TITLE to title, CONTENT to content))
+                .addOnSuccessListener { emitter.onComplete()}
+                .addOnFailureListener { FirestoreRemoteStorageExceptions.AddNoteException }
+        }
+    }
+
     fun addNote(title: String, content: String): Single<String> {
         return Single.create { emitter ->
             firestore.collection(COLLECTION)
@@ -55,7 +65,6 @@ class FirestoreRemoteStorage(
                     emitter.onSuccess(noteReference.id)
                 }
                 .addOnFailureListener { emitter.onError(FirestoreRemoteStorageExceptions.AddNoteException) }
-
         }
     }
 

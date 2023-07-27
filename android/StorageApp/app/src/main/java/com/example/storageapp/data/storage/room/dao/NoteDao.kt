@@ -1,10 +1,6 @@
 package com.example.storageapp.data.storage.room.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.storageapp.data.storage.room.entity.NoteEntity
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -20,11 +16,11 @@ interface NoteDao {
     @Insert
     fun insert(note: NoteEntity): Completable
 
-    @Update//(onConflict = OnConflictStrategy.REPLACE)
-    fun update(note: NoteEntity): Completable
+    @Update(entity = NoteEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    fun update(entity: NoteEntity): Completable
 
-    @Delete
-    fun delete(note: NoteEntity): Completable
+    @Query("DELETE FROM notes WHERE id=:noteId")
+    fun delete(noteId: String): Completable
 
     // Select (id) FROM notes
     // Select (title, content) FROM notes
@@ -34,6 +30,4 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE id = :noteId")
     fun getNote(noteId: String): Observable<NoteEntity>
 
-    //Delete with query
-    //TODO
 }
