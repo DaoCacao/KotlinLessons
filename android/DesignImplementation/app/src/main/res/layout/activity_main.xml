@@ -39,4 +39,21 @@
         android:textColor="@color/colorSurfacePrimary"
         app:shapeAppearance="@style/Shape.Button"
         tools:text="Button" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="8dp" />
+
+    <com.example.designimplementation.custom.user_list_item.UiUserListItem
+        android:id="@+id/user_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:user_list_item_checked="false"
+        app:user_list_item_image="@mipmap/ic_launcher"
+        app:user_list_item_title="Title" />
+
+    <com.example.designimplementation.compose.component.UiAvatarFieldView
+        android:id="@+id/avatar_field_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
