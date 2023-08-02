@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.example.designimplementation.R
+import com.example.designimplementation.databinding.ViewFilledButtonBinding
 
 /**
  * Primary Button
@@ -17,7 +18,13 @@ class UiButtonFromXml @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    private val binding by lazy { ViewFilledButtonBinding.bind(this) }
+
     init {
-        inflate(context, R.layout.view_button, this)
+        inflate(context, R.layout.view_filled_button, this)
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        binding.button.setOnClickListener(l)
     }
 }
