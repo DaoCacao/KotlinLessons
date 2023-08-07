@@ -7,6 +7,7 @@ object NotesObject {
         fun showLoading()
         fun showNotes(notes: List<NoteDisplayModel>)
         fun showError()
+        fun showDeleteSucces()
         fun navigateToNoteActivity(noteId: String)
 
         fun setDeleteState()

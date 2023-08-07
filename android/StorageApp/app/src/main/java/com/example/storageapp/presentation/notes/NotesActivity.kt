@@ -44,18 +44,22 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
                     setDeleteState()
                     true
                 }
+
                 binding.toolBar.menu.findItem(R.id.menu_search) -> {
                     setSearchState()
                     true
                 }
+
                 binding.toolBar.menu.findItem(R.id.menu_sort_alphabet_a_to_z) -> {
                     presenter.sortNotes(DECREASE)
                     true
                 }
+
                 binding.toolBar.menu.findItem(R.id.menu_sort_alphabet_z_to_a) -> {
                     presenter.sortNotes(INCREASE)
                     true
                 }
+
                 else -> {
                     true
                 }
@@ -152,6 +156,10 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
         binding.progressLoading.isVisible = false
         binding.textError.isVisible = true
         binding.recyclerNotes.isVisible = false
+    }
+
+    override fun showDeleteSucces() {
+        Toast.makeText(this, "Delete succed", Toast.LENGTH_SHORT).show()
     }
 
 

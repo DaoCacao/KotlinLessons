@@ -37,6 +37,8 @@ class NotePresenter(
 
     override fun updateNote(title: String, content: String) {
         val disposable = updateNoteUseCase.invoke(id, title, content)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { view.showUpdateSucces()},
                 { view.showUpdateError()})

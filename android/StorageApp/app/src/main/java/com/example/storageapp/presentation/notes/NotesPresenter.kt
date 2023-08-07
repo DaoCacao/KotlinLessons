@@ -47,14 +47,16 @@ class NotesPresenter(
                 deleteNoteUseCase.invoke(it).toObservable()
             }
             .toList()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                view.showDeleteSucces()
             },
                 {
                     view.showError()
                 })
         composite.add(disposable)
     }
-
 
 
     override fun addToDeleteSet(noteId: String) {
@@ -92,9 +94,11 @@ class NotesPresenter(
                     DECREASE -> {
                         filtersForSort.filterByAlphabetAtoZ(holderList)
                     }
+
                     INCREASE -> {
                         filtersForSort.filterByAlphabetZtoA(holderList)
                     }
+
                     else -> {
                         holderList
                     }

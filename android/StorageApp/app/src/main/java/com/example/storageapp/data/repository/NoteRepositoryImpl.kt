@@ -13,7 +13,7 @@ class NoteRepositoryImpl(
     private val firestoreRemoteStorage: FirestoreRemoteStorage,
     private val roomLocalStorage: RoomLocalStorage,
 ) : NoteRepository {
-    val repository = ROOM
+
 
     override fun synchronizeNotes(): Completable {
         return roomLocalStorage.getNotes()
@@ -32,12 +32,7 @@ class NoteRepositoryImpl(
     }
 
     override fun getNote(noteId: String): Observable<NoteModel> {
-
-        return if (repository == FIRESTORE) {
-            firestoreRemoteStorage.getNote(noteId)
-        } else {
-            roomLocalStorage.getNote(noteId)
-        }
+        return roomLocalStorage.getNote(noteId)
     }
 
     override fun addNote(title: String, content: String): Single<String> {
@@ -49,13 +44,11 @@ class NoteRepositoryImpl(
     }
 
     override fun updateNote(noteId: String, title: String, content: String): Completable {
-        val note=NoteModel(noteId, title, content)
-        return firestoreRemoteStorage.updateNote(noteId, title, content)
-            .mergeWith { roomLocalStorage.updateNote(note) }
+        val note = NoteModel(noteId, title, content)
+        return  roomLocalStorage.updateNote(note)
     }
 
     override fun deleteNote(noteId: String): Completable {
-
         return roomLocalStorage.deleteNote(noteId)
     }
 
