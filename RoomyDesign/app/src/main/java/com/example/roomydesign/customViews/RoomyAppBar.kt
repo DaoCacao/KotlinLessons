@@ -18,7 +18,7 @@ class RoomyAppBar @JvmOverloads constructor(
 
     init {
         setPadding(16.toPx)
-        setBackgroundColor(resources.getColor(R.color.accent_primary))
+        setBackgroundColor(context.getColor(R.color.accent_primary))
         setTitleTextAppearance(context, R.style.RoomyText_AppBarText)
         setNavigationIcon(R.drawable.baseline_arrow_back_ios_24)
         textAlignment= TEXT_ALIGNMENT_CENTER
