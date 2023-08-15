@@ -6,8 +6,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class NotePresenter(
+class NotePresenter @Inject constructor(
     val view: NoteObject.View,
     val getNoteUseCase: GetNoteUseCase,
     val updateNoteUseCase: UpdateNoteUseCase

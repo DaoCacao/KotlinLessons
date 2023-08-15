@@ -11,13 +11,13 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.example.storageapp.R
 import com.example.storageapp.databinding.ActivityNotesBinding
-
-import com.example.storageapp.di.provideNotesPresenter
 import com.example.storageapp.presentation.model.NoteDisplayModel
 import com.example.storageapp.presentation.note.NoteActivity
+import javax.inject.Inject
 
 
-class NotesActivity : AppCompatActivity(), NotesObject.View {
+class NotesActivity @Inject constructor(private val presenter: NotesObject.Presenter) :
+    AppCompatActivity(), NotesObject.View {
 
     private val binding by lazy { ActivityNotesBinding.inflate(layoutInflater) }
     private val adapter by lazy {
@@ -27,7 +27,7 @@ class NotesActivity : AppCompatActivity(), NotesObject.View {
             onCheckBoxClick = { presenter.onCheckBoxClick(it) }
         )
     }
-    private val presenter: NotesObject.Presenter by lazy { provideNotesPresenter(this, this) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

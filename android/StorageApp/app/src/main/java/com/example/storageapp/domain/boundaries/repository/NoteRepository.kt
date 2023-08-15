@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
 interface NoteRepository {
-    fun synchronizeNotes(): Completable
+
     fun getNotes(): Observable<List<NoteModel>>
     fun getNote(noteId: String): Observable<NoteModel>
     fun addNote(title: String, content: String): Single<String>

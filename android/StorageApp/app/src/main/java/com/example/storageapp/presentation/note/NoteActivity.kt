@@ -8,19 +8,19 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.storageapp.R
 import com.example.storageapp.databinding.ActivityNoteBinding
-import com.example.storageapp.di.provideNotePresenter
 import com.example.storageapp.presentation.notes.NotesActivity
+import javax.inject.Inject
 
-class NoteActivity : AppCompatActivity(), NoteObject.View {
+class NoteActivity @Inject constructor(
+    val presenter: NoteObject.Presenter
+) : AppCompatActivity(), NoteObject.View {
 
     private val binding by lazy { ActivityNoteBinding.inflate(layoutInflater) }
-    private val presenter: NoteObject.Presenter by lazy { provideNotePresenter(this, this) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
 
         presenter.getNote(intent.getStringExtra(NOTEID).toString())
 
@@ -28,11 +28,10 @@ class NoteActivity : AppCompatActivity(), NoteObject.View {
         binding.ibtnGoBack.setOnClickListener {
             presenter.updateNote(binding.title.text.toString(), binding.content.text.toString())
             navigateToNotesActivity()
-            //finish()
         }
 
         binding.fab.setOnClickListener {
-            presenter.updateNote(binding.title.text.toString(), binding.content.text.toString() )
+            presenter.updateNote(binding.title.text.toString(), binding.content.text.toString())
         }
     }
 
@@ -59,10 +58,12 @@ class NoteActivity : AppCompatActivity(), NoteObject.View {
         Toast.makeText(this, getString(R.string.somth_went_wrong), Toast.LENGTH_LONG).show()
         binding.progressBar.isVisible = false
     }
+
     override fun showUpdateError() {
         Toast.makeText(this, getString(R.string.UpdateError), Toast.LENGTH_LONG).show()
         binding.progressBar.isVisible = false
     }
+
     override fun showGetError() {
         Toast.makeText(this, getString(R.string.GetNoteError), Toast.LENGTH_LONG).show()
         binding.progressBar.isVisible = false

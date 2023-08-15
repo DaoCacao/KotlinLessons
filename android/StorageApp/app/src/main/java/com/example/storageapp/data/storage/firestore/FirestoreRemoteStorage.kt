@@ -7,8 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class FirestoreRemoteStorage(
+class FirestoreRemoteStorage @Inject constructor (
     private val firestore: FirebaseFirestore,
     private val mapper: NoteMapper,
 ) {
@@ -48,11 +49,11 @@ class FirestoreRemoteStorage(
         }
     }
 
-    fun setNote(id: String, title: String, content: String): Completable {
-        return Completable.create { emitter ->
+    fun setNote(id: String, title: String, content: String): Observable<NoteModel> {
+        return Observable.create { emitter ->
             firestore.collection(COLLECTION).document(id)
                 .set(mapOf(TITLE to title, CONTENT to content))
-                .addOnSuccessListener { emitter.onComplete()}
+                .addOnSuccessListener { emitter.onNext(NoteModel(id,title, content))}
                 .addOnFailureListener { FirestoreRemoteStorageExceptions.AddNoteException }
         }
     }

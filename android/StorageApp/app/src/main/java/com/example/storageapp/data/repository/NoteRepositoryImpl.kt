@@ -7,26 +7,42 @@ import com.example.storageapp.domain.model.NoteModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 import kotlin.random.Random
 
-class NoteRepositoryImpl(
+class NoteRepositoryImpl @Inject constructor(
     private val firestoreRemoteStorage: FirestoreRemoteStorage,
     private val roomLocalStorage: RoomLocalStorage,
 ) : NoteRepository {
 
 
-    override fun synchronizeNotes(): Completable {
+    private fun synchronizeNotes(): Observable<List<NoteModel>> {
         return roomLocalStorage.getNotes()
-            .flatMapCompletable { localList ->
+            .flatMap { localList ->
                 Observable.fromIterable(localList)
-                    .flatMapCompletable {
+                    .flatMap {
                         firestoreRemoteStorage.setNote(it.id, it.title, it.content)
+                            .toList()
+                            .toObservable()
+                    }
+            }
+    }
+
+    private fun uploadRemoteNotes(): Observable<List<NoteModel>> {
+        return firestoreRemoteStorage.getNotes()
+            .flatMap {
+                Observable.fromIterable(it)
+                    .flatMap {
+                        roomLocalStorage.addNote(it.id, it.title, it.content)
+                            .toObservable()
                     }
             }
     }
 
     override fun getNotes(): Observable<List<NoteModel>> {
         synchronizeNotes()
+            .subscribe()
+        uploadRemoteNotes()
             .subscribe()
         return firestoreRemoteStorage.getNotes()
     }
@@ -45,7 +61,7 @@ class NoteRepositoryImpl(
 
     override fun updateNote(noteId: String, title: String, content: String): Completable {
         val note = NoteModel(noteId, title, content)
-        return  roomLocalStorage.updateNote(note)
+        return roomLocalStorage.updateNote(note)
     }
 
     override fun deleteNote(noteId: String): Completable {

@@ -4,8 +4,9 @@ import com.example.storageapp.data.mapper.NoteMapper
 import com.example.storageapp.data.storage.room.database.AppDatabase
 import com.example.storageapp.data.storage.room.entity.NoteEntity
 import com.example.storageapp.domain.model.NoteModel
+import javax.inject.Inject
 
-class RoomLocalStorage(
+class RoomLocalStorage @Inject constructor(
     private val database: AppDatabase,
     private val mapper: NoteMapper,
 ) {
