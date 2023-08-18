@@ -14,8 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DependencyInjection"
         tools:targetApi="31">
+        <!-- + MainActivity -->
+        <!-- + TestView -->
+        <!-- + ViewModelActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".view_model.ViewModelActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DependencyInjection">
