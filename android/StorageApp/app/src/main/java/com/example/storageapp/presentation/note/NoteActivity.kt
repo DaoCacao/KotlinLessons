@@ -9,14 +9,15 @@ import androidx.core.view.isVisible
 import com.example.storageapp.R
 import com.example.storageapp.databinding.ActivityNoteBinding
 import com.example.storageapp.presentation.notes.NotesActivity
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
-class NoteActivity @Inject constructor(
-    val presenter: NoteObject.Presenter
-) : AppCompatActivity(), NoteObject.View {
+@AndroidEntryPoint
+class NoteActivity : AppCompatActivity(), NoteObject.View {
 
     private val binding by lazy { ActivityNoteBinding.inflate(layoutInflater) }
 
+    @Inject
+    lateinit var presenter: NoteObject.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

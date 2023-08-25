@@ -13,11 +13,16 @@ import com.example.storageapp.R
 import com.example.storageapp.databinding.ActivityNotesBinding
 import com.example.storageapp.presentation.model.NoteDisplayModel
 import com.example.storageapp.presentation.note.NoteActivity
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-class NotesActivity @Inject constructor(private val presenter: NotesObject.Presenter) :
+@AndroidEntryPoint
+class NotesActivity :
     AppCompatActivity(), NotesObject.View {
+
+    @Inject
+    lateinit var presenter: NotesObject.Presenter
 
     private val binding by lazy { ActivityNotesBinding.inflate(layoutInflater) }
     private val adapter by lazy {

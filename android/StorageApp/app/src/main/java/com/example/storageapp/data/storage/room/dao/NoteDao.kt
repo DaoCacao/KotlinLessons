@@ -13,6 +13,10 @@ interface NoteDao {
 //    @Query
 //    @Delete
 
+
+    @Upsert
+    fun updateNotes(notes:List<NoteEntity>): Completable
+
     @Insert
     fun insert(note: NoteEntity): Completable
 

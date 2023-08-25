@@ -1,6 +1,7 @@
 package com.example.storageapp.presentation.notes
 
 import android.database.Observable
+import android.util.Log
 import com.example.storageapp.domain.use_case.AddNoteUseCase
 import com.example.storageapp.domain.use_case.DeleteNoteUseCase
 import com.example.storageapp.domain.use_case.GetNotesUseCase
@@ -35,7 +36,7 @@ class NotesPresenter @Inject constructor(
                     view.showNotes(mapper.mapNoteListToNoteDisplayList(notesList, false))
                 },
                 {
-                    it.printStackTrace()
+                    Log.e("boom", "$it in NotesPresenter method: loadData")
                     view.showError()
                 },
             )
@@ -44,12 +45,11 @@ class NotesPresenter @Inject constructor(
 
     override fun deleteNote() {
         val disposable = io.reactivex.rxjava3.core.Observable.fromIterable(deleteSet)
-            .flatMap {
-                deleteNoteUseCase.invoke(it).toObservable()
+            .flatMapCompletable {
+                deleteNoteUseCase.invoke(it)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
             }
-            .toList()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view.showDeleteSucces()
             },
@@ -74,12 +74,12 @@ class NotesPresenter @Inject constructor(
 
     override fun addNote(title: String, content: String) {
         val disposable = addNoteUseCase.invoke(title, content)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 view.navigateToNoteActivity(it)
             },
-                { view.showFailToast() })
+                {
+                println(it)
+                    view.showFailToast() })
 
         composite.add(disposable)
     }

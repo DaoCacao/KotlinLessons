@@ -12,6 +12,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -29,12 +30,8 @@ object NoteRepositoryImpProvider {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(context: Context): AppDatabase {
-        if (databaseInstance == null) databaseInstance = AppDatabase.build(context)
-        return databaseInstance!!
-    }
+    fun provideAppDatabase(@ApplicationContext context: Context) = AppDatabase.build(context)
 
-    private var databaseInstance: AppDatabase? = null
 }
 
 

@@ -14,22 +14,26 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UseCasesProvider {
+object UseCasesModule {
 
     @Provides
     @Singleton
-    fun provideAddNoteUseCase(noteRepository: NoteRepository)= AddNoteUseCase(noteRepository)
+    fun provideAddNoteUseCase(noteRepository: NoteRepository) = AddNoteUseCase(noteRepository)
+
     @Provides
     @Singleton
-    fun provideDeleteNoteUseCase(noteRepository: NoteRepository)= DeleteNoteUseCase(noteRepository)
+    fun provideDeleteNoteUseCase(noteRepository: NoteRepository) = DeleteNoteUseCase(noteRepository)
+
     @Provides
     @Singleton
-    fun provideGetNotesUseCase(noteRepository: NoteRepository)= GetNotesUseCase(noteRepository)
+    fun provideGetNotesUseCase(noteRepository: NoteRepository) = GetNotesUseCase(noteRepository)
+
     @Provides
     @Singleton
-    fun provideGetNoteUseCase(noteRepository: NoteRepository)= GetNoteUseCase(noteRepository)
+    fun provideGetNoteUseCase(noteRepository: NoteRepository) = GetNoteUseCase(noteRepository)
+
     @Provides
     @Singleton
-    fun provideUpdateNoteUseCase(noteRepository: NoteRepository)= UpdateNoteUseCase(noteRepository)
+    fun provideUpdateNoteUseCase(noteRepository: NoteRepository) = UpdateNoteUseCase(noteRepository)
 
 }

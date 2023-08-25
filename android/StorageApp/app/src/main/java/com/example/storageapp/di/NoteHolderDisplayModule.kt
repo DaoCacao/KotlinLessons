@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NoteHolderDisplayProvider {
+object NoteHolderDisplayModule {
 
     @Provides
     @Singleton

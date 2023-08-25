@@ -10,6 +10,11 @@ class RoomLocalStorage @Inject constructor(
     private val database: AppDatabase,
     private val mapper: NoteMapper,
 ) {
+
+    fun updateNotes(notes: List<NoteModel>) =
+        database.noteDao().updateNotes(mapper.mapModelListToEntityList(notes))
+
+
     fun addNote(id: String, title: String, content: String) =
         database.noteDao().insert(mapper.mapModelToEntity(NoteModel(id, title, content)))
 
