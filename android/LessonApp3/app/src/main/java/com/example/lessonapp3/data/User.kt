@@ -1,4 +1,4 @@
-package com.example.lessonapp3
+package com.example.lessonapp3.data
 
 data class User(
     val id: Int,

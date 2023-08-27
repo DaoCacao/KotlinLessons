@@ -1,5 +1,6 @@
 package com.example.lessonapp3
 
+import com.example.lessonapp3.data.User
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -26,7 +27,40 @@ class UserService {
      *
      */
     fun signUp(login: String, password: String, name: String): Single<User> {
-        TODO("Implement this function using reactive way")
+
+        return Single.create {
+
+            if (login.length < 3) {
+                it.onError(SignUpException.InvalidLogin)
+                return@create
+            }
+            if (password.length < 6) {
+                it.onError(SignUpException.InvalidPassword)
+                return@create
+            }
+            if (name.length < 3) {
+                it.onError(SignUpException.InvalidName)
+                return@create
+            }
+
+            for (userNames in users.keys) {
+                if (userNames.login == login) {
+                    it.onError(SignUpException.UserAlreadyExists)
+                    return@create
+                }
+            }
+
+            val id = users.values.map { it -> it.id }.maxOrNull()
+
+            val user = if (id != null) {
+                User(1 + id, name)
+
+            } else {
+                User(1, name)
+            }
+            users[Credentials(login, password)] = user
+            it.onSuccess(user)
+        }
     }
 
     /**
@@ -38,8 +72,26 @@ class UserService {
      * - Else [User] is signed in and returned.
      */
     fun signIn(login: String, password: String): Single<User> {
-        TODO("Implement this function using reactive way")
+        return Single.create {
+
+            var loginCheck=false
+
+            for (user in users.keys) {
+                loginCheck = user.login == login
+                if (loginCheck&&user.password != password) {
+                    it.onError(SignInException.InvalidPassword)
+                    return@create
+                }
+            }
+            if (!loginCheck) {
+                it.onError(SignInException.UserNotFound)
+                return@create
+            }
+
+            it.onSuccess(users[Credentials(login, password)]!!)
+        }
     }
+
 
     /**
      * Returns user with given [userId].
@@ -49,7 +101,16 @@ class UserService {
      * - Else [User] is returned.
      */
     fun getUser(userId: Int): Single<User> {
-        TODO("Implement this function using reactive way")
+        return Single.create {
+            for (users in users.values) {
+                if (users.id == userId) {
+                    it.onSuccess(users)
+                    return@create
+                }
+            }
+            it.onError(GetUserException.UserNotFound)
+            return@create
+        }
     }
 }
 
