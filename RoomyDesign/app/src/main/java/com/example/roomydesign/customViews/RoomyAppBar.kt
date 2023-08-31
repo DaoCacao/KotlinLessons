@@ -12,6 +12,7 @@ class RoomyAppBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?=null,
     defStyleAttr: Int=0,
+    setBackButton: Boolean
 
 ): Toolbar(context, attrs, defStyleAttr) {
 
@@ -20,7 +21,10 @@ class RoomyAppBar @JvmOverloads constructor(
         setPadding(16.toPx)
         setBackgroundColor(context.getColor(R.color.accent_primary))
         setTitleTextAppearance(context, R.style.RoomyText_AppBarText)
-        setNavigationIcon(R.drawable.baseline_arrow_back_ios_24)
         textAlignment= TEXT_ALIGNMENT_CENTER
+
+        if(setBackButton){
+            setNavigationIcon(R.drawable.baseline_arrow_back_ios_24)
+        }
     }
 }

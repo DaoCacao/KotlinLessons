@@ -21,6 +21,8 @@ class RoomyAddPhotoItem @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
+    uploadFromGalleryOnClick: ()->Unit,
+    takePhotoOnClick: ()->Unit
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
 
@@ -55,10 +57,10 @@ class RoomyAddPhotoItem @JvmOverloads constructor(
         typedArray.recycle()
 
         binding.fromGallery.setOnClickListener {
-
+            uploadFromGalleryOnClick
         }
         binding.takePhoto.setOnClickListener {
-
+            takePhotoOnClick
         }
     }
 
