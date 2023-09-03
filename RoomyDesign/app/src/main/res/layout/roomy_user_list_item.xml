@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:gravity="center_vertical"
+    tools:layout_height="wrap_content"
+    tools:layout_width="match_parent"
+    tools:orientation="horizontal"
+    tools:parentTag="android.widget.LinearLayout"
+   >
+
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        tools:src="@drawable/avatar"
+       />
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:textAppearance="@style/RoomyText"
+        tools:text="User Name" />
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="match_parent" />
+
+    <com.example.roomydesign.customViews.RoomyFilledButton
+        android:id="@+id/btn_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="follow" />
+
+    <com.example.roomydesign.customViews.RoomyOutlinedButton
+        android:id="@+id/btn_unfollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:olbtn_text="Unfollow" />
+
+</merge>
